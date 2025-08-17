@@ -212,6 +212,55 @@ let create_random_cards_distrib n_players =
     for c = 0 to cards_per_player - 1 do
       let card_index = (p * cards_per_player) + c in
       Dynarray.add_last hand (Dynarray.get all_cards card_index)
-    done
+    done;
+    Dynarray.add_last distrib hand
   done;
   distrib
+
+(*******************)
+(* TASK GENERATORS *)
+(*******************)
+let task_win_cards cards =
+  let task player_index s =
+    (* if all cards in tricks in player_index return done, if one of the card in trick of another player return failed else unknown*)
+    let player = s.players.(player_index) in
+    let player_cards = Dynarray.create () in
+
+    (* Collect all cards from player's tricks *)
+    Dynarray.iter
+      (fun trick ->
+        Dynarray.iter (fun card -> Dynarray.add_last player_cards card) trick)
+      player.tricks;
+
+    (* Check if all required cards are in player's tricks *)
+    let all_cards_won =
+      Dynarray.for_all
+        (fun required_card ->
+          Dynarray.exists
+            (fun player_card -> player_card = required_card)
+            player_cards)
+        cards
+    in
+
+    if all_cards_won then Done
+    else
+      (* Check if any required card is in another player's tricks *)
+      let card_in_other_tricks = ref false in
+      for i = 0 to Array.length s.players - 1 do
+        if i <> player_index then
+          Dynarray.iter
+            (fun trick ->
+              Dynarray.iter
+                (fun card ->
+                  if
+                    Dynarray.exists
+                      (fun required_card -> card = required_card)
+                      cards
+                  then card_in_other_tricks := true)
+                trick)
+            s.players.(i).tricks
+      done;
+
+      if !card_in_other_tricks then Failed else Unknown
+  in
+  task
