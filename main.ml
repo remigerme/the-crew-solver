@@ -134,18 +134,26 @@ let rec play s =
       (* Saving existing state *)
       let old_first_player = s.first_player in
       let old_trick = Dynarray.copy s.current_trick in
+      let old_players =
+        Array.map
+          (fun p -> { p with tricks = Dynarray.copy p.tricks })
+          s.players
+      in
       (* Updating state *)
       s.players.(pid) <- new_p;
       Dynarray.add_last s.current_trick c;
       (* More update if we finished the trick *)
       if n_players s == Dynarray.length s.current_trick then (
         let winner_rel = winner s.current_trick in
-        s.first_player <- (winner_rel + s.first_player) mod n_players s;
+        let winner = (winner_rel + s.first_player) mod n_players s in
+        s.first_player <- winner;
+        Dynarray.add_last s.players.(winner).tricks
+          (Dynarray.copy s.current_trick);
         Dynarray.clear s.current_trick);
       (* Recursive call *)
       if not (game_failed s) then play s;
       (* Resetting state *)
       s.first_player <- old_first_player;
       s.current_trick <- old_trick;
-      s.players.(pid) <- p
+      Array.iteri (fun i old_p -> s.players.(i) <- old_p) old_players
     done
