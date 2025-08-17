@@ -1,6 +1,8 @@
 (*******************)
 (* Modelling cards *)
 (*******************)
+let nb_cards = 40
+
 type card =
   | Red of int
   | Blue of int
@@ -52,6 +54,11 @@ let playable_cards hand first_card =
     Dynarray.filter (same_color first_card) hand
   else hand
 
+let copy_without hand card =
+  let new_hand = Dynarray.create () in
+  Dynarray.iter (fun c -> if c <> card then Dynarray.add_last new_hand c) hand;
+  new_hand
+
 (*******************************)
 (* Modelling tasks and players *)
 (*******************************)
@@ -65,8 +72,8 @@ type player = {
 
 and state = {
   players : player array;
-  current_trick : trick;
-  first_player : int;
+  mutable current_trick : trick;
+  mutable first_player : int;
 }
 
 and task = state -> task_status
@@ -93,13 +100,52 @@ let game_failed state =
   let player_failed p = Dynarray.exists task_failed p.tasks in
   Array.exists player_failed state.players
 
-(********)
+let game_won state =
+  let task_done t = t state == Done in
+  let player_done p = Dynarray.for_all task_done p.tasks in
+  Array.for_all player_done state.players
 
-let play s =
-  let p = current_player s in
-  (* Opening a new trick *)
-  if Dynarray.length s.current_trick == 0 then ()
+let game_over state =
+  let cards_left =
+    Array.fold_left (fun x p -> x + Dynarray.length p.hand) 0 state.players
+  in
+  nb_cards mod n_players state == cards_left
+
+(******************)
+(* MAIN GAME LOOP *)
+(******************)
+let rec play s =
+  if game_won s then print_string "Found a winning state.\n";
+  if game_over s then ()
   else
-    let first_card = Dynarray.get s.current_trick 0 in
-    let c = playable_cards p.hand first_card in
-    ()
+    let p = current_player s in
+    let pid = current_player_index s in
+    let playable_hand =
+      if Dynarray.length s.current_trick == 0 then p.hand
+      else
+        let first_card = Dynarray.get s.current_trick 0 in
+        playable_cards p.hand first_card
+    in
+    for i = 0 to Dynarray.length playable_hand - 1 do
+      (* Preparing next state *)
+      let c = Dynarray.get playable_hand i in
+      let new_hand = copy_without p.hand c in
+      let new_p = { p with hand = new_hand } in
+      (* Saving existing state *)
+      let old_first_player = s.first_player in
+      let old_trick = Dynarray.copy s.current_trick in
+      (* Updating state *)
+      s.players.(pid) <- new_p;
+      Dynarray.add_last s.current_trick c;
+      (* More update if we finished the trick *)
+      if n_players s == Dynarray.length s.current_trick then (
+        let winner_rel = winner s.current_trick in
+        s.first_player <- (winner_rel + s.first_player) mod n_players s;
+        Dynarray.clear s.current_trick);
+      (* Recursive call *)
+      if not (game_failed s) then play s;
+      (* Resetting state *)
+      s.first_player <- old_first_player;
+      s.current_trick <- old_trick;
+      s.players.(pid) <- p
+    done
