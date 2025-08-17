@@ -264,3 +264,61 @@ let task_win_cards cards =
       if !card_in_other_tricks then Failed else Unknown
   in
   task
+
+(***********)
+(* EXAMPLE *)
+(***********)
+let example () =
+  (* Initialize random seed *)
+  Random.init 42;
+
+  (* Create a distribution for 4 players *)
+  let distrib = create_random_cards_distrib 4 in
+
+  (* Add tasks to players *)
+  (* Player 0: must win Trump 1 *)
+  let trump1_cards = Dynarray.create () in
+  Dynarray.add_last trump1_cards (Trump 1);
+  let task_trump1 = task_win_cards trump1_cards 0 in
+
+  (* Player 1: must win Red 9 and Blue 9 *)
+  let high_cards = Dynarray.create () in
+  Dynarray.add_last high_cards (Red 9);
+  Dynarray.add_last high_cards (Blue 9);
+  let task_high_cards = task_win_cards high_cards 1 in
+
+  (* Update distribution with tasks *)
+  let hand0 = Dynarray.get distrib 0 in
+  let hand1 = Dynarray.get distrib 1 in
+  let hand2 = Dynarray.get distrib 2 in
+  let hand3 = Dynarray.get distrib 3 in
+
+  let tasks0 = Dynarray.create () in
+  Dynarray.add_last tasks0 task_trump1;
+
+  let tasks1 = Dynarray.create () in
+  Dynarray.add_last tasks1 task_high_cards;
+
+  let tasks2 = Dynarray.create () in
+  let tasks3 = Dynarray.create () in
+
+  (* Create new distribution with tasks *)
+  let distrib_with_tasks = Dynarray.create () in
+  Dynarray.add_last distrib_with_tasks (hand0, tasks0);
+  Dynarray.add_last distrib_with_tasks (hand1, tasks1);
+  Dynarray.add_last distrib_with_tasks (hand2, tasks2);
+  Dynarray.add_last distrib_with_tasks (hand3, tasks3);
+
+  (* Initialize and try to solve the game *)
+  let initial_state = init distrib_with_tasks in
+
+  Printf.printf "Starting game with %d players\n" (n_players initial_state);
+  Printf.printf "Captain is player %d\n" initial_state.first_player;
+  Printf.printf "Player 0 must win: Trump 1\n";
+  Printf.printf "Player 1 must win: Red 9 and Blue 9\n";
+  Printf.printf "Searching for winning solution...\n";
+
+  play initial_state
+
+(* Run the example *)
+let _ = example ()
