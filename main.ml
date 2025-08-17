@@ -157,3 +157,22 @@ let rec play s =
       s.current_trick <- old_trick;
       Array.iteri (fun i old_p -> s.players.(i) <- old_p) old_players
     done
+
+let init distrib =
+  let n_players = Dynarray.length distrib in
+  let players =
+    Array.make n_players
+      {
+        hand = Dynarray.create ();
+        tricks = Dynarray.create ();
+        tasks = Dynarray.create ();
+      }
+  in
+  for i = 0 to n_players - 1 do
+    let hand, tasks = Dynarray.get distrib i in
+    players.(i) <- { hand; tricks = Dynarray.create (); tasks }
+  done;
+  let s = { players; current_trick = Dynarray.create (); first_player = 0 } in
+  let captain = retrieve_captain s in
+  s.first_player <- captain;
+  s
