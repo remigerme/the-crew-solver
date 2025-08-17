@@ -114,8 +114,10 @@ let game_over state =
 (******************)
 (* MAIN GAME LOOP *)
 (******************)
+exception FoundWinning of state
+
 let rec play s =
-  if game_won s then print_string "Found a winning state.\n";
+  if game_won s then raise (FoundWinning s);
   if game_over s then ()
   else
     let p = current_player s in
@@ -158,6 +160,9 @@ let rec play s =
       Array.iteri (fun i old_p -> s.players.(i) <- old_p) old_players
     done
 
+(***********)
+(* HELPERS *)
+(***********)
 let init distrib =
   let n_players = Dynarray.length distrib in
   let players =
@@ -176,3 +181,37 @@ let init distrib =
   let captain = retrieve_captain s in
   s.first_player <- captain;
   s
+
+let create_random_cards_distrib n_players =
+  (* Create all cards *)
+  let all_cards = Dynarray.create () in
+  for i = 1 to 9 do
+    Dynarray.add_last all_cards (Red i);
+    Dynarray.add_last all_cards (Blue i);
+    Dynarray.add_last all_cards (Green i);
+    Dynarray.add_last all_cards (Yellow i)
+  done;
+  for i = 1 to 4 do
+    Dynarray.add_last all_cards (Trump i)
+  done;
+
+  (* Shuffle cards using Fisher-Yates algorithm *)
+  let len = Dynarray.length all_cards in
+  for i = len - 1 downto 1 do
+    let j = Random.int (i + 1) in
+    let temp = Dynarray.get all_cards i in
+    Dynarray.set all_cards i (Dynarray.get all_cards j);
+    Dynarray.set all_cards j temp
+  done;
+
+  (* Distribute cards to players *)
+  let distrib = Dynarray.create () in
+  let cards_per_player = nb_cards / n_players in
+  for p = 0 to n_players - 1 do
+    let hand = Dynarray.create () in
+    for c = 0 to cards_per_player - 1 do
+      let card_index = (p * cards_per_player) + c in
+      Dynarray.add_last hand (Dynarray.get all_cards card_index)
+    done
+  done;
+  distrib
