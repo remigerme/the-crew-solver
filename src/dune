@@ -1,0 +1,3 @@
+(executable
+ (name solver)
+ (modules solver card trick hand game))
