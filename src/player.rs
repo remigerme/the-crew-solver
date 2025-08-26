@@ -2,8 +2,8 @@ use std::rc::Rc;
 
 use crate::{
     card::Card,
-    game::{GameError, State},
     hand::Hand,
+    state::{GameError, State},
     task::{Task, TaskStatus},
     trick::Trick,
 };
@@ -47,7 +47,7 @@ impl Player {
         self.hand.iter().any(is_trump_4) || self.tricks.iter().any(|t| t.iter().any(is_trump_4))
     }
 
-    pub fn task_status(&self, ip: usize, state: &State) -> TaskStatus {
+    pub fn tasks_status(&self, ip: usize, state: &State) -> TaskStatus {
         let mut done = true;
         for task in &self.tasks {
             match task.eval(state, ip) {

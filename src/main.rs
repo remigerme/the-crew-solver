@@ -1,7 +1,7 @@
 mod card;
-mod game;
 mod hand;
 mod player;
+mod state;
 mod task;
 mod trick;
 

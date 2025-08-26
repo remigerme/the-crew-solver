@@ -34,7 +34,7 @@ impl TaskWinCards {
 
 /// It is required to implement the [`Task`] trait.
 impl Task for TaskWinCards {
-    fn eval(&self, state: &crate::game::State, ip: usize) -> super::TaskStatus {
+    fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         // Checking if the player has won all cards - in that case task is done
         let player = state.current_player();
         let mut found_cards = HashSet::new();
@@ -75,7 +75,7 @@ impl Task for TaskWinCards {
 /// This is a good practice, but is optional.
 #[cfg(test)]
 mod test {
-    use crate::{game::State, player::Player, task::TaskStatus};
+    use crate::{player::Player, state::State, task::TaskStatus};
 
     use super::*;
 

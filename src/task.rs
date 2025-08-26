@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use crate::game::State;
+use crate::state::State;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TaskStatus {

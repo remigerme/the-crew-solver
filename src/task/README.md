@@ -38,7 +38,7 @@ Okay, but...
 
 ## What does the state contain?
 
-Refer to the docstrings in [`game.rs`](../game.rs). It basically contains all information on current trick, as well as past tricks. Many util functions are provided, but if one is missing, feel free to add it via a PR.
+Refer to the docstrings in [`state.rs`](../state.rs). It basically contains all information on current trick, as well as past tricks. Many util functions are provided, but if one is missing, feel free to add it via a PR.
 
 ## Implementing a new task
 

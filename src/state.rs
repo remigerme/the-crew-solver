@@ -51,7 +51,7 @@ impl State {
     pub fn game_status(&self) -> TaskStatus {
         let mut done = true;
         for (i, p) in self.players.iter().enumerate() {
-            match p.task_status(i, self) {
+            match p.tasks_status(i, self) {
                 TaskStatus::Failed => return TaskStatus::Failed,
                 TaskStatus::Unknown => done = false,
                 TaskStatus::Done => (),
