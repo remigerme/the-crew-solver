@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::{ops::Deref, rc::Rc};
 
 use crate::{
     card::Card,
@@ -24,6 +24,24 @@ impl Player {
         }
     }
 
+    pub fn get_hand(&self) -> &Hand {
+        &self.hand
+    }
+
+    pub fn remove_card_from_hand(&mut self, card: &Card) -> Result<(), GameError> {
+        let before = self.hand.len();
+        self.hand.retain(|c| c != card);
+        if self.hand.len() == before {
+            Err(GameError::CardNotFound(*card, self.hand.deref().clone()))
+        } else {
+            Ok(())
+        }
+    }
+
+    pub fn get_tricks(&self) -> &[Trick] {
+        &self.tricks
+    }
+
     pub fn add_trick(&mut self, trick: Trick) -> Result<(), GameError> {
         if let Some(t0) = self.tricks.get(0) {
             if t0.len() != trick.len() {
@@ -36,10 +54,6 @@ impl Player {
 
     pub fn add_task<T: Task + 'static>(&mut self, task: T) {
         self.tasks.push(Rc::new(task));
-    }
-
-    pub fn get_tricks(&self) -> &[Trick] {
-        &self.tricks
     }
 
     pub fn is_captain(&self) -> bool {
