@@ -1,4 +1,7 @@
-use std::{collections::HashSet, ops::Deref};
+use std::{
+    collections::HashSet,
+    ops::{Deref, DerefMut},
+};
 
 use crate::card::Card;
 
@@ -12,6 +15,12 @@ impl Deref for Hand {
 
     fn deref(&self) -> &Self::Target {
         &self.cards
+    }
+}
+
+impl DerefMut for Hand {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.cards
     }
 }
 
@@ -32,10 +41,15 @@ impl From<Vec<Card>> for Hand {
 }
 
 impl Hand {
-    pub fn playable_cards(&self, first_card: &Card) -> Vec<Card> {
-        let same_color = |c: &Card| first_card.same_color(c);
-        if self.cards.iter().any(same_color) {
-            self.cards.iter().copied().filter(same_color).collect()
+    pub fn playable_cards(&self, first_card: Option<&Card>) -> Vec<Card> {
+        if let Some(first_card) = first_card
+            && self.cards.iter().any(|c| first_card.same_color(c))
+        {
+            self.cards
+                .iter()
+                .copied()
+                .filter(|c| first_card.same_color(c))
+                .collect()
         } else {
             self.cards.clone()
         }
@@ -63,12 +77,16 @@ mod test {
         let hand: Hand = vec![Card::Blue(1), Card::Blue(2), Card::Red(5), Card::Trump(3)].into();
 
         assert_eq!(
-            hand.playable_cards(&Card::Blue(5)),
+            hand.playable_cards(Some(&Card::Blue(5))),
             vec![Card::Blue(1), Card::Blue(2)]
         );
-        assert_eq!(hand.playable_cards(&Card::Red(3)), vec![Card::Red(5)]);
-        assert_eq!(hand.playable_cards(&Card::Trump(4)), vec![Card::Trump(3)]);
+        assert_eq!(hand.playable_cards(Some(&Card::Red(3))), vec![Card::Red(5)]);
+        assert_eq!(
+            hand.playable_cards(Some(&Card::Trump(4))),
+            vec![Card::Trump(3)]
+        );
 
-        assert_eq!(hand.playable_cards(&Card::Yellow(5)), *hand);
+        assert_eq!(hand.playable_cards(Some(&Card::Yellow(5))), hand.cards);
+        assert_eq!(hand.playable_cards(None), hand.cards);
     }
 }
