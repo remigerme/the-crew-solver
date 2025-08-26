@@ -1,3 +1,5 @@
+use thiserror::Error;
+
 use crate::{
     card::{self, Card},
     player::Player,
@@ -12,11 +14,15 @@ pub struct State {
     current_trick: Trick,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Error)]
 pub enum GameError {
+    #[error("Captain was not found - is there a 4 of trump in the game?")]
     MissingCaptain,
+    #[error("Invalid trick size: expected {0}, got {1}.")]
     InvalidTrickSize(usize, usize),
+    #[error("Unfortunately this game is not feasible.")]
     NoSolutionFound,
+    #[error("Card {0:?} was not found in {1:?}")]
     CardNotFound(Card, Vec<Card>),
 }
 
