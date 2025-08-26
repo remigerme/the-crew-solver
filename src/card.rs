@@ -1,4 +1,4 @@
-const NB_CARDS: usize = 40;
+pub const NB_CARDS: usize = 40;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Card {
