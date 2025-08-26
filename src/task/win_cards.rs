@@ -36,7 +36,7 @@ impl TaskWinCards {
 impl Task for TaskWinCards {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         // Checking if the player has won all cards - in that case task is done
-        let player = state.current_player();
+        let player = state.get_current_player();
         let mut found_cards = HashSet::new();
         for trick in player.get_tricks() {
             for c in trick.iter() {

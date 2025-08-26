@@ -1,4 +1,7 @@
-use std::{collections::HashSet, ops::Deref};
+use std::{
+    collections::HashSet,
+    ops::{Deref, DerefMut},
+};
 
 use crate::card::Card;
 
@@ -13,6 +16,12 @@ impl Deref for Trick {
 
     fn deref(&self) -> &Self::Target {
         &self.cards
+    }
+}
+
+impl DerefMut for Trick {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.cards
     }
 }
 

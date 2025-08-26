@@ -1,4 +1,9 @@
-use crate::{player::Player, task::TaskStatus, trick::Trick};
+use crate::{
+    card::{self, Card},
+    player::Player,
+    task::TaskStatus,
+    trick::Trick,
+};
 
 #[derive(Debug, Clone)]
 pub struct State {
@@ -11,6 +16,8 @@ pub struct State {
 pub enum GameError {
     MissingCaptain,
     InvalidTrickSize(usize, usize),
+    NoSolutionFound,
+    CardNotFound(Card, Vec<Card>),
 }
 
 impl State {
@@ -40,12 +47,25 @@ impl State {
         &self.players[i]
     }
 
-    pub fn current_player_idx(&self) -> usize {
+    fn get_mut_player(&mut self, i: usize) -> &mut Player {
+        &mut self.players[i]
+    }
+
+    pub fn get_current_trick(&self) -> &Trick {
+        &self.current_trick
+    }
+
+    pub fn get_current_player_idx(&self) -> usize {
         (self.first_player + self.current_trick.len()) % self.n_players()
     }
 
-    pub fn current_player(&self) -> &Player {
-        &self.players[self.current_player_idx()]
+    pub fn get_current_player(&self) -> &Player {
+        &self.players[self.get_current_player_idx()]
+    }
+
+    pub fn get_mut_current_player(&mut self) -> &mut Player {
+        let ip = self.get_current_player_idx();
+        &mut self.players[ip]
     }
 
     pub fn game_status(&self) -> TaskStatus {
@@ -59,8 +79,36 @@ impl State {
         }
         if done {
             TaskStatus::Done
+        } else if self.game_is_over() {
+            TaskStatus::Failed
         } else {
             TaskStatus::Unknown
         }
+    }
+
+    pub fn game_is_over(&self) -> bool {
+        let mut cards_played = 0;
+        for p in &self.players {
+            cards_played += p.get_tricks().iter().map(|t| t.len()).sum::<usize>();
+        }
+        let leftover_cards = card::NB_CARDS % self.n_players();
+        card::NB_CARDS - leftover_cards == cards_played
+    }
+
+    fn add_to_current_trick(&mut self, card: &Card) -> Result<(), GameError> {
+        self.current_trick.push(*card);
+        if self.current_trick.len() == self.n_players() {
+            let ip = self.current_trick.winner(self.first_player);
+            let trick = self.current_trick.clone();
+            self.get_mut_player(ip).add_trick(trick)?;
+            self.first_player = ip;
+            self.current_trick.clear();
+        }
+        Ok(())
+    }
+
+    pub fn play_card(&mut self, card: &Card) -> Result<(), GameError> {
+        self.get_mut_current_player().remove_card_from_hand(card)?;
+        self.add_to_current_trick(card)
     }
 }
