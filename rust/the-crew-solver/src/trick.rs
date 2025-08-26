@@ -16,6 +16,15 @@ impl Deref for Trick {
     }
 }
 
+impl From<(usize, Vec<Card>)> for Trick {
+    fn from(value: (usize, Vec<Card>)) -> Self {
+        Trick {
+            idx: value.0,
+            cards: value.1,
+        }
+    }
+}
+
 impl Trick {
     fn argmax<F>(&self, f: F) -> usize
     where

@@ -15,6 +15,12 @@ impl Deref for Hand {
     }
 }
 
+impl From<Vec<Card>> for Hand {
+    fn from(value: Vec<Card>) -> Self {
+        Hand { cards: value }
+    }
+}
+
 impl Hand {
     pub fn playable_cards(&self, first_card: &Card) -> Vec<Card> {
         let same_color = |c: &Card| first_card.same_color(c);
