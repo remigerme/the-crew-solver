@@ -13,5 +13,7 @@ pub trait Task: Debug {
     fn eval(&self, state: &State, ip: usize) -> TaskStatus;
 }
 
-/// Add your task module here.
+// Add your task module here.
+
+pub mod dont_win_cards;
 pub mod win_cards;
