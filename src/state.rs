@@ -83,6 +83,10 @@ impl State {
         State::new(players)
     }
 
+    pub fn first_player(&self) -> usize {
+        self.first_player
+    }
+
     pub fn n_players(&self) -> usize {
         self.players.len()
     }
@@ -93,10 +97,6 @@ impl State {
 
     pub fn get_mut_player(&mut self, i: usize) -> &mut Player {
         &mut self.players[i]
-    }
-
-    pub fn get_current_trick(&self) -> &Trick {
-        &self.current_trick
     }
 
     pub fn get_current_player_idx(&self) -> usize {
@@ -110,6 +110,10 @@ impl State {
     pub fn get_mut_current_player(&mut self) -> &mut Player {
         let ip = self.get_current_player_idx();
         &mut self.players[ip]
+    }
+
+    pub fn get_current_trick(&self) -> &Trick {
+        &self.current_trick
     }
 
     pub fn game_status(&self) -> TaskStatus {

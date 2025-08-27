@@ -15,5 +15,6 @@ pub trait Task: Debug {
 
 // Add your task module here.
 
+pub mod dont_open_trick_with;
 pub mod dont_win_cards;
 pub mod win_cards;
