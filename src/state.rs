@@ -1,7 +1,7 @@
 use thiserror::Error;
 
 use crate::{
-    card::{self, Card},
+    card::{self, Card, NB_CARDS},
     player::Player,
     task::TaskStatus,
     trick::Trick,
@@ -108,6 +108,7 @@ impl State {
             let trick = self.current_trick.clone();
             self.get_mut_player(ip).add_trick(trick)?;
             self.first_player = ip;
+            self.current_trick.incr();
             self.current_trick.clear();
         }
         Ok(())

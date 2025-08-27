@@ -45,6 +45,10 @@ impl From<(usize, Vec<Card>)> for Trick {
 }
 
 impl Trick {
+    pub fn incr(&mut self) {
+        self.idx += 1
+    }
+
     fn argmax<F>(&self, f: F) -> usize
     where
         F: Fn(&Card) -> bool,
