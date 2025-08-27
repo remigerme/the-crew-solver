@@ -52,6 +52,10 @@ where
 }
 
 impl Trick {
+    pub fn idx(&self) -> usize {
+        self.idx
+    }
+
     pub fn incr(&mut self) {
         self.idx += 1
     }

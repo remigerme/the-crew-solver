@@ -21,6 +21,8 @@ pub enum GameError {
     MissingCaptain,
     #[error("Invalid trick size: expected {0}, got {1}.")]
     InvalidTrickSize(usize, usize),
+    #[error("Non increasing trick index: have you called `.incr` to increment the trick index?")]
+    NonIncreasingTrickIdx,
     #[error("Unfortunately this game is not feasible.")]
     NoSolutionFound,
     #[error("Card {0:?} was not found in {1:?}")]
@@ -37,7 +39,11 @@ impl State {
         Err(GameError::MissingCaptain)
     }
 
-    pub fn new(players: Vec<Player>) -> Self {
+    pub fn new<I>(players: I) -> Self
+    where
+        I: IntoIterator<Item = Player>,
+    {
+        let players = players.into_iter().collect();
         let captain = State::retrieve_captain(&players).unwrap();
         State {
             players,

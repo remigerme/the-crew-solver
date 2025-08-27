@@ -48,6 +48,11 @@ impl Player {
                 return Err(GameError::InvalidTrickSize(t0.len(), trick.len()));
             }
         }
+        if let Some(lt) = self.tricks.last() {
+            if lt.idx() >= trick.idx() {
+                return Err(GameError::NonIncreasingTrickIdx);
+            }
+        }
         self.tricks.push(trick);
         Ok(())
     }
