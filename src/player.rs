@@ -78,3 +78,27 @@ impl Player {
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_is_captain() {
+        let captain = Player::new(vec![Card::Green(1), Card::Trump(4)].into());
+        assert!(captain.is_captain());
+
+        let not_captain = Player::new(vec![Card::Yellow(4), Card::Green(1)].into());
+        assert!(!not_captain.is_captain());
+    }
+
+    #[test]
+    fn test_remove_card_from_hand() {
+        let mut p = Player::new(vec![Card::Yellow(6), Card::Red(2)].into());
+
+        assert!(p.remove_card_from_hand(&Card::Yellow(6)).is_ok());
+        assert!(p.remove_card_from_hand(&Card::Yellow(6)).is_err());
+        assert!(p.remove_card_from_hand(&Card::Red(4)).is_err());
+        assert_eq!(*p.get_hand(), vec![Card::Red(2)].into());
+    }
+}
