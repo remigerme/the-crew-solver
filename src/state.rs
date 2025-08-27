@@ -2,7 +2,7 @@ use rand::seq::SliceRandom;
 use thiserror::Error;
 
 use crate::{
-    card::{self, Card, NB_CARDS},
+    card::{self, COLOR_RANGE, COLORS, Card, NB_CARDS, TRUMP_RANGE},
     player::Player,
     task::TaskStatus,
     trick::Trick,
@@ -55,12 +55,12 @@ impl State {
         }
 
         let mut cards = Vec::new();
-        for i in 1..10 {
-            for variant in [Card::Red, Card::Green, Card::Blue, Card::Yellow] {
+        for i in COLOR_RANGE {
+            for variant in COLORS {
                 cards.push(variant(i));
             }
         }
-        for i in 1..5 {
+        for i in TRUMP_RANGE {
             cards.push(Card::Trump(i));
         }
 

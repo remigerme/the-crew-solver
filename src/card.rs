@@ -1,4 +1,7 @@
 pub const NB_CARDS: usize = 40;
+pub const COLORS: [fn(usize) -> Card; 4] = [Card::Red, Card::Green, Card::Blue, Card::Yellow];
+pub const COLOR_RANGE: std::ops::Range<usize> = 1..10;
+pub const TRUMP_RANGE: std::ops::Range<usize> = 1..5;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Card {
@@ -45,12 +48,12 @@ mod test {
 
     #[test]
     fn test_is_valid_valid() {
-        for i in 1..10 {
-            for variant in [Card::Red, Card::Green, Card::Blue, Card::Yellow] {
+        for i in COLOR_RANGE {
+            for variant in COLORS {
                 assert!(variant(i).is_valid());
             }
         }
-        for i in 1..5 {
+        for i in TRUMP_RANGE {
             assert!(Card::Trump(i).is_valid());
         }
     }
@@ -58,7 +61,7 @@ mod test {
     #[test]
     fn test_is_valid_invalid() {
         for i in [0, 10, 11, 12] {
-            for variant in [Card::Red, Card::Green, Card::Blue, Card::Yellow] {
+            for variant in COLORS {
                 assert!(!variant(i).is_valid());
             }
         }
@@ -69,39 +72,39 @@ mod test {
 
     #[test]
     fn test_val() {
-        for i in 1..10 {
-            for variant in [Card::Red, Card::Green, Card::Blue, Card::Yellow] {
+        for i in COLOR_RANGE {
+            for variant in COLORS {
                 assert_eq!(variant(i).val(), i);
             }
         }
-        for i in 1..5 {
+        for i in TRUMP_RANGE {
             assert_eq!(Card::Trump(i).val(), i);
         }
     }
 
     #[test]
     fn test_is_trump() {
-        for i in 1..10 {
-            for variant in [Card::Red, Card::Green, Card::Blue, Card::Yellow] {
+        for i in COLOR_RANGE {
+            for variant in COLORS {
                 assert!(!variant(i).is_trump());
             }
         }
-        for i in 1..5 {
+        for i in TRUMP_RANGE {
             assert!(Card::Trump(i).is_trump());
         }
     }
 
     #[test]
     fn test_is_same_color_same() {
-        for i in 1..10 {
-            for j in 1..10 {
-                for variant in [Card::Red, Card::Green, Card::Blue, Card::Yellow] {
+        for i in COLOR_RANGE {
+            for j in COLOR_RANGE {
+                for variant in COLORS {
                     assert!(variant(i).same_color(&variant(j)));
                 }
             }
         }
-        for i in 1..5 {
-            for j in 1..5 {
+        for i in TRUMP_RANGE {
+            for j in TRUMP_RANGE {
                 assert!(Card::Trump(i).same_color(&Card::Trump(j)));
             }
         }
