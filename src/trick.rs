@@ -1,5 +1,6 @@
 use std::{
     collections::HashSet,
+    fmt::Debug,
     ops::{Deref, DerefMut},
 };
 
@@ -25,21 +26,27 @@ impl DerefMut for Trick {
     }
 }
 
-impl From<(usize, Vec<Card>)> for Trick {
-    fn from(value: (usize, Vec<Card>)) -> Self {
-        for c in &value.1 {
+impl<I> From<(usize, I)> for Trick
+where
+    I: IntoIterator<Item = Card> + Debug,
+{
+    fn from(value: (usize, I)) -> Self {
+        let cards: Vec<Card> = value.1.into_iter().collect();
+
+        for c in &cards {
             if !c.is_valid() {
                 panic!("Creating a trick with an invalid card: {:?}", c);
             }
         }
 
-        if value.1.len() != value.1.iter().copied().collect::<HashSet<Card>>().len() {
-            panic!("Creating a trick with duplicate cards: {:?}", value.1);
+        let unique_cards: HashSet<Card> = cards.iter().copied().collect();
+        if cards.len() != unique_cards.len() {
+            panic!("Creating a trick with duplicate cards: {:?}", cards);
         }
 
         Trick {
             idx: value.0,
-            cards: value.1,
+            cards,
         }
     }
 }

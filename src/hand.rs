@@ -1,5 +1,6 @@
 use std::{
     collections::HashSet,
+    fmt::Debug,
     ops::{Deref, DerefMut},
 };
 
@@ -24,19 +25,25 @@ impl DerefMut for Hand {
     }
 }
 
-impl From<Vec<Card>> for Hand {
-    fn from(value: Vec<Card>) -> Self {
-        for c in &value {
+impl<I> From<I> for Hand
+where
+    I: IntoIterator<Item = Card> + Debug,
+{
+    fn from(value: I) -> Self {
+        let cards: Vec<Card> = value.into_iter().collect();
+
+        for c in &cards {
             if !c.is_valid() {
                 panic!("Creating a hand with an invalid card: {:?}", c);
             }
         }
 
-        if value.len() != value.iter().copied().collect::<HashSet<Card>>().len() {
-            panic!("Creating a hand with duplicate cards: {:?}", value);
+        let unique_cards: HashSet<Card> = cards.iter().copied().collect();
+        if cards.len() != unique_cards.len() {
+            panic!("Creating a hand with duplicate cards: {:?}", cards);
         }
 
-        Hand { cards: value }
+        Hand { cards }
     }
 }
 
