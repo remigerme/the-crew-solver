@@ -2,7 +2,10 @@ use crate::{
     card::Card,
     player::Player,
     state::{GameError, State},
-    task::win_cards::TaskWinCards,
+    task::{
+        dont_open_trick_with::TaskDontOpenTrickWith, dont_win_cards::TaskDontWinCards,
+        win_cards::TaskWinCards,
+    },
 };
 
 mod card;
@@ -35,6 +38,24 @@ fn main() {
         Card::Green(9),
         Card::Yellow(4),
     ]));
+    state
+        .get_mut_player(1)
+        .add_task(TaskDontWinCards::new_from_colors([
+            Card::Blue as fn(usize) -> Card,
+            Card::Green,
+        ]));
+    state
+        .get_mut_player(2)
+        .add_task(TaskDontOpenTrickWith::new([
+            Card::Blue as fn(usize) -> Card,
+            Card::Red,
+        ]));
+    state
+        .get_mut_player(3)
+        .add_task(TaskDontWinCards::new_from_values([5, 8]));
+    state
+        .get_mut_player(3)
+        .add_task(TaskDontWinCards::new([Card::Yellow(1), Card::Yellow(2)]));
     match state.play() {
         Ok(solution) => println!("Found a solution: {:?}", solution),
         Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
