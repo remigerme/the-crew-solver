@@ -1,3 +1,4 @@
+use rand::seq::SliceRandom;
 use thiserror::Error;
 
 use crate::{
@@ -45,6 +46,43 @@ impl State {
         }
     }
 
+    pub fn new_random(n_players: usize) -> Self {
+        if n_players <= 1 || n_players >= 6 {
+            panic!(
+                "Could not create a game with {} players (expected between 2 and 5 inclusive).",
+                n_players
+            );
+        }
+
+        let mut cards = Vec::new();
+        for i in 1..10 {
+            for variant in [Card::Red, Card::Green, Card::Blue, Card::Yellow] {
+                cards.push(variant(i));
+            }
+        }
+        for i in 1..5 {
+            cards.push(Card::Trump(i));
+        }
+
+        let mut rng = rand::rng();
+        cards.shuffle(&mut rng);
+
+        let mut players = vec![];
+        let cards_per_player = NB_CARDS / n_players;
+        for ip in 0..n_players {
+            let lb = cards_per_player * ip;
+            let ub = if ip == n_players - 1 {
+                NB_CARDS
+            } else {
+                cards_per_player * (ip + 1)
+            };
+            let p = Player::new(cards[lb..ub].to_vec().into());
+            players.push(p);
+        }
+
+        State::new(players)
+    }
+
     pub fn n_players(&self) -> usize {
         self.players.len()
     }
@@ -53,7 +91,7 @@ impl State {
         &self.players[i]
     }
 
-    fn get_mut_player(&mut self, i: usize) -> &mut Player {
+    pub fn get_mut_player(&mut self, i: usize) -> &mut Player {
         &mut self.players[i]
     }
 

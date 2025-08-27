@@ -14,6 +14,7 @@ mod task;
 mod trick;
 
 fn main() {
+    // Minimal demo
     let mut p1 = Player::new(vec![Card::Trump(4), Card::Blue(2)].into());
     let p2 = Player::new(vec![Card::Blue(1), Card::Red(6)].into());
 
@@ -21,6 +22,20 @@ fn main() {
 
     let mut s = State::new(vec![p1, p2]);
     match s.play() {
+        Ok(solution) => println!("Found a solution: {:?}", solution),
+        Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
+        Err(e) => eprintln!("Error encountered: {}", e),
+    }
+
+    // Real world demo
+    let mut state = State::new_random(4);
+    state.get_mut_player(0).add_task(TaskWinCards::new([
+        Card::Blue(1),
+        Card::Red(6),
+        Card::Green(9),
+        Card::Yellow(4),
+    ]));
+    match state.play() {
         Ok(solution) => println!("Found a solution: {:?}", solution),
         Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
         Err(e) => eprintln!("Error encountered: {}", e),
