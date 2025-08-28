@@ -58,3 +58,107 @@ You can check the provided [example](win_cards.rs).
 Feel free to open an issue if you have any question.
 
 Thank you for your help!
+
+## Checklist
+
+From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards):
+
+- done in [`TaskWinCards`](win_cards.rs)
+  - [x] (1/1/1) Win the pink 3
+  - [x] (1/1/1) Win the yellow 1
+  - [x] (1/1/1) Win the blue 4
+  - [x] (1/1/1) Win the green 6
+  - [x] (3/4/5) Win all four 3s.
+  - [x] (4/5/6) Win all four 9s.
+  - [x] (2/3/3) Win the blue 1,2 and 3
+  - [x] (2/2/3) Win the blue 6 and the yellow 7
+  - [x] (2/2/3) Win the pink 5 and yellow 6
+  - [x] (2/2/3) Win the green 5 and blue 8
+  - [x] (2/2/3) Win the blue 5 and pink 8
+  - [x] (2/2/3) Win the pink 9 and yellow 8
+  - [x] (2/2/2) Win the pink 1 and green 7
+  - [x] (2/3/3) Win the yellow 9 and blue 7
+  - [x] (3/4/4) Win the green 3 and the yellow 4 and 5
+  - [x] (1/1/1) Win the 3 submarine
+- done in [`TaskDontWinCards`](dont_win_cards.rs)
+  - [x] (2/2/2) Win no pink cards.
+  - [x] (1/1/1) Win no submarines
+  - [x] (2/2/2) Don’t win any green cards
+  - [x] (2/2/2) Don’t win any yellow cards
+  - [x] (3/3/3) Don’t win any pink or blue cards
+  - [x] (3/3/3) Don’t win any yellow or green cards
+  - [x] (3/3/2) Don’t win any 8s or 9s
+  - [x] (1/1/1) Don’t win any 9s
+  - [x] (1/2/2) Don’t win any 5s
+  - [x] (2/2/2) Don’t win any 1s
+  - [x] (3/3/3) Don’t win any 1s, 2s or 3s
+- done in [`TaskDontOpenTrickWith`](dont_open_trick_with.rs)
+  - [x] (4/3/3) Don’t open a trick with a pink, yellow or blue card
+  - [x] (2/1/1) Don’t open a trick with a pink or green card
+- [ ] (2/3/3) Win more tricks than everyone else
+- [ ] (3/4/5) Win more tricks than everyone else together
+- [ ] (2/2/3) Win fewer tricks than everyone else
+- [ ] (2/2/3) Win more tricks than the captain (the captain can’t take this mission)
+- [ ] (2/2/2) Win fewer tricks than the captain (the captain can’t take this mission)
+- [ ] (4/3/3) Win the same number of tricks as the captain (the captain can’t take this mission)
+- [ ] (2/3/3) Win a trick where all cards are of lower value than 7 without submarines
+- [ ] (2/3/4) Win a trick where all cards are of greater value than 5
+- [ ] (2/3/3) Win a trick with a 6.
+- [ ] (2/3/4) Win a trick with a 5.
+- [ ] (3/4/5) Win a trick with a 3.
+- [ ] (1/2/2) Win a 5 with a 7.
+- [ ] (3/4/5) Win an 8 with a 4.
+- [ ] (2/3/4) Win any 6 with a another 6.
+- [ ] (3/4/5) Win a trick with a 2.
+- [ ] (3/4/5) Win at least three 5s.
+- [ ] (3/4/5) Win at least three 9s.
+- [ ] (2/2/2) Win at least two 7s.
+- [ ] (3/4/4) Win exactly three 6s
+- [ ] (2/3/3) Win exactly two 9s
+- [ ] (3/4/5) Win the green 2 in the last trick
+- [ ] (4/4/4) Win exactly one pink and one green card
+- [ ] (3/3/3) Win at least seven yellow cards
+- [ ] (2/3/3) Win at least five pink cards
+- [ ] (3/4/4) Win exactly two green cards.
+- [ ] (3/4/4) Win exactly two blue cards.
+- [ ] (3/3/4) Win exactly one pink card.
+- [ ] (2/3/4) Win at least one card of each colour (excluding submarines)
+- [ ] (3/4/5) Win all cards of at least one colour (excluding submarines)
+- [ ] (2/5/6) Win a trick that has only even numbers (2,4,6,8)
+- [ ] (2/4/5) Win a trick that has only numbers (1,3,5,7,9)
+- [ ] (3/3/4) Win a trick with a total value higher than 23/28/31 (3/4/5 players) without submarines
+- [ ] (3/3/4) Win a trick with a total value lower than 8/12/16 (3/4/5 players) without submarines
+- [ ] (3/3/4) Win a trick with a total value of 22 or 23
+- [ ] (3/3/3) Win exactly one submarine (deal new cards if someone has all submarines in hand)
+- [ ] (3/3/3) Win the 1 submarine and no other (deal new cards if someone has submarines no. 1 and 4 or 1,2,3 in hand)
+- [ ] (3/3/3) Win the 2 submarine and no other (deal new cards if someone has submarines no. 2 and 4 or 1,2,3 in hand)
+- [ ] (3/3/4) Win exactly two submarines (deal new cards if someone has submarines no. 2,3,4 in hand)
+- [ ] (3/4/4) Win exactly three submarines (deal new cards if someone has all submarines in hand)
+- [ ] (3/3/3) Win the pink 7 with a submarine
+- [ ] (3/3/3) Win the green 9 with a submarine
+- [ ] (1/2/3) Don’t win any of the first four tricks
+- [ ] (1/2/2) Don’t win any of the first three tricks
+- [ ] (2/3/3) Don’t win any of the first five tricks
+- [ ] (4/3/3) Don’t win any tricks
+- [ ] (3/2/2) Do not win two consecutive tricks.
+- [ ] (2/3/3) Win the last trick
+- [ ] (2/3/4) Win the first three tricks
+- [ ] (1/1/2) Win the first two tricks
+- [ ] (1/1/1) Win the first trick
+- [ ] (3/4/4) Win the first and the last trick
+- [ ] (4/4/4) I win only the last trick
+- [ ] (4/3/3) I win only the first trick
+- [ ] (3/2/2) Win exactly one trick
+- [ ] (2/2/2) Win exactly two tricks
+- [ ] (1/1/1) Win two consecutive tricks
+- [ ] (2/3/4) Win three consecutive tricks
+- [ ] (2/3/5) Win exactly four tricks
+- [ ] (3/3/4) Win exactly three consecutive tricks.
+- [ ] (3/3/3) Win exactly two consecutive tricks.
+- [ ] (3/2/2) Win X tricks (predict the exact number and show)
+- [ ] (4/3/3) Win X tricks (predict the exact number but keep hidden)
+- [ ] (4/4/4) Win the same amount of pink and yellow cards (more than 0)
+- [ ] (2/3/3) Win the same amount of green and yellow cards in a trick (more than 0)
+- [ ] (2/3/3) Win the same amount of pink and blue cards in a trick (more than 0)
+- [ ] (1/1/1) Win more yellow cards than blue cards (0 blue cards are allowed)
+- [ ] (1/1/1) Win more pink cards than green cards (0 green cards are allowed)
