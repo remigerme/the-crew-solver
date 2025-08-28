@@ -95,6 +95,14 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - done in [`TaskDontOpenTrickWith`](dont_open_trick_with.rs)
   - [x] (4/3/3) Don’t open a trick with a pink, yellow or blue card
   - [x] (2/1/1) Don’t open a trick with a pink or green card
+- done in [`TaskWinTrickWith`](win_trick_with.rs)
+  - [x] (2/3/3) Win a trick with a 6.
+  - [x] (2/3/4) Win a trick with a 5.
+  - [x] (3/4/5) Win a trick with a 3.
+  - [x] (1/2/2) Win a 5 with a 7.
+  - [x] (3/4/5) Win an 8 with a 4.
+  - [x] (2/3/4) Win any 6 with a another 6.
+  - [x] (3/4/5) Win a trick with a 2.
 - [ ] (2/3/3) Win more tricks than everyone else
 - [ ] (3/4/5) Win more tricks than everyone else together
 - [ ] (2/2/3) Win fewer tricks than everyone else
@@ -103,13 +111,6 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - [ ] (4/3/3) Win the same number of tricks as the captain (the captain can’t take this mission)
 - [ ] (2/3/3) Win a trick where all cards are of lower value than 7 without submarines
 - [ ] (2/3/4) Win a trick where all cards are of greater value than 5
-- [ ] (2/3/3) Win a trick with a 6.
-- [ ] (2/3/4) Win a trick with a 5.
-- [ ] (3/4/5) Win a trick with a 3.
-- [ ] (1/2/2) Win a 5 with a 7.
-- [ ] (3/4/5) Win an 8 with a 4.
-- [ ] (2/3/4) Win any 6 with a another 6.
-- [ ] (3/4/5) Win a trick with a 2.
 - [ ] (3/4/5) Win at least three 5s.
 - [ ] (3/4/5) Win at least three 9s.
 - [ ] (2/2/2) Win at least two 7s.
