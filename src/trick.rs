@@ -9,6 +9,7 @@ use crate::card::Card;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Trick {
     idx: usize,
+    first_player: usize,
     cards: Vec<Card>,
 }
 
@@ -26,12 +27,12 @@ impl DerefMut for Trick {
     }
 }
 
-impl<I> From<(usize, I)> for Trick
+impl<I> From<(usize, usize, I)> for Trick
 where
     I: IntoIterator<Item = Card> + Debug,
 {
-    fn from(value: (usize, I)) -> Self {
-        let cards: Vec<Card> = value.1.into_iter().collect();
+    fn from(value: (usize, usize, I)) -> Self {
+        let cards: Vec<Card> = value.2.into_iter().collect();
 
         for c in &cards {
             if !c.is_valid() {
@@ -46,6 +47,7 @@ where
 
         Trick {
             idx: value.0,
+            first_player: value.1,
             cards,
         }
     }
@@ -58,6 +60,14 @@ impl Trick {
 
     pub fn incr(&mut self) {
         self.idx += 1
+    }
+
+    pub fn get_first_player(&self) -> usize {
+        self.first_player
+    }
+
+    pub fn set_first_player(&mut self, first_player: usize) {
+        self.first_player = first_player;
     }
 
     fn argmax<F>(&self, f: F) -> usize
@@ -83,15 +93,15 @@ impl Trick {
         }
     }
 
-    pub fn winner(&self, first_player: usize) -> usize {
+    pub fn winner(&self) -> usize {
         let n_players = self.cards.len();
-        if first_player >= n_players {
+        if self.first_player >= n_players {
             panic!(
                 "Unexpected value of first_player: {} (should be < {})",
-                first_player, n_players
+                self.first_player, n_players
             );
         }
-        (self.winner_rel() + first_player) % n_players
+        (self.winner_rel() + self.first_player) % n_players
     }
 }
 
@@ -102,61 +112,73 @@ mod test {
     #[test]
     #[should_panic]
     fn test_trick_with_invalid_card() {
-        let _trick: Trick = (0, vec![Card::Blue(0)]).into();
+        let _trick: Trick = (0, 0, vec![Card::Blue(0)]).into();
     }
 
     #[test]
     #[should_panic]
     fn test_trick_with_duplicates() {
-        let _trick: Trick = (0, vec![Card::Blue(1), Card::Blue(1)]).into();
+        let _trick: Trick = (0, 0, vec![Card::Blue(1), Card::Blue(1)]).into();
     }
 
     #[test]
     fn test_winner_all_same_color() {
-        let trick: Trick = (
+        let mut trick: Trick = (
+            0,
             0,
             vec![Card::Blue(1), Card::Blue(7), Card::Blue(4), Card::Blue(5)],
         )
             .into();
 
-        assert_eq!(trick.winner(0), 1);
-        assert_eq!(trick.winner(1), 2);
-        assert_eq!(trick.winner(2), 3);
-        assert_eq!(trick.winner(3), 0);
+        assert_eq!(trick.winner(), 1);
+        trick.set_first_player(1);
+        assert_eq!(trick.winner(), 2);
+        trick.set_first_player(2);
+        assert_eq!(trick.winner(), 3);
+        trick.set_first_player(3);
+        assert_eq!(trick.winner(), 0);
     }
 
     #[test]
     fn test_winner_others_discarded() {
-        let trick: Trick = (
+        let mut trick: Trick = (
+            0,
             0,
             vec![Card::Blue(1), Card::Red(2), Card::Red(9), Card::Yellow(8)],
         )
             .into();
 
-        assert_eq!(trick.winner(0), 0);
-        assert_eq!(trick.winner(1), 1);
-        assert_eq!(trick.winner(2), 2);
-        assert_eq!(trick.winner(3), 3);
+        assert_eq!(trick.winner(), 0);
+        trick.set_first_player(1);
+        assert_eq!(trick.winner(), 1);
+        trick.set_first_player(2);
+        assert_eq!(trick.winner(), 2);
+        trick.set_first_player(3);
+        assert_eq!(trick.winner(), 3);
     }
 
     #[test]
     fn test_winner_some_trumped() {
-        let trick: Trick = (
+        let mut trick: Trick = (
+            0,
             0,
             vec![Card::Blue(1), Card::Blue(7), Card::Trump(2), Card::Trump(3)],
         )
             .into();
 
-        assert_eq!(trick.winner(0), 3);
-        assert_eq!(trick.winner(1), 0);
-        assert_eq!(trick.winner(2), 1);
-        assert_eq!(trick.winner(3), 2);
+        assert_eq!(trick.winner(), 3);
+        trick.set_first_player(1);
+        assert_eq!(trick.winner(), 0);
+        trick.set_first_player(2);
+        assert_eq!(trick.winner(), 1);
+        trick.set_first_player(3);
+        assert_eq!(trick.winner(), 2);
     }
 
     #[test]
     #[should_panic]
     fn test_winner_invalid_first_player() {
-        let trick: Trick = (0, vec![Card::Blue(1), Card::Blue(2)]).into();
-        trick.winner(2);
+        let trick: Trick = (0, 2, vec![Card::Blue(1), Card::Blue(2)]).into();
+        trick.winner();
     }
 }

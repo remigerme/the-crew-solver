@@ -11,7 +11,6 @@ use crate::{
 #[derive(Debug, Clone)]
 pub struct State {
     players: Vec<Player>,
-    first_player: usize,
     current_trick: Trick,
 }
 
@@ -47,8 +46,7 @@ impl State {
         let captain = State::retrieve_captain(&players).unwrap();
         State {
             players,
-            first_player: captain,
-            current_trick: (0, vec![]).into(),
+            current_trick: (0, captain, vec![]).into(),
         }
     }
 
@@ -90,7 +88,7 @@ impl State {
     }
 
     pub fn first_player(&self) -> usize {
-        self.first_player
+        self.current_trick.get_first_player()
     }
 
     pub fn n_players(&self) -> usize {
@@ -106,7 +104,7 @@ impl State {
     }
 
     pub fn get_current_player_idx(&self) -> usize {
-        (self.first_player + self.current_trick.len()) % self.n_players()
+        (self.first_player() + self.current_trick.len()) % self.n_players()
     }
 
     pub fn get_current_player(&self) -> &Player {
@@ -152,12 +150,12 @@ impl State {
     fn add_to_current_trick(&mut self, card: &Card) -> Result<(), GameError> {
         self.current_trick.push(*card);
         if self.current_trick.len() == self.n_players() {
-            let ip = self.current_trick.winner(self.first_player);
+            let ip = self.current_trick.winner();
             let trick = self.current_trick.clone();
             self.get_mut_player(ip).add_trick(trick)?;
-            self.first_player = ip;
-            self.current_trick.incr();
             self.current_trick.clear();
+            self.current_trick.set_first_player(ip);
+            self.current_trick.incr();
         }
         Ok(())
     }

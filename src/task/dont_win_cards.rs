@@ -95,11 +95,11 @@ mod test {
         let mut p2 = Player::new([Card::Green(4)].into());
         p2.add_task(task);
         let mut p3 = Player::new([Card::Red(8)].into());
-        p3.add_trick((0, [Card::Blue(7), Card::Blue(8), Card::Blue(9)]).into())
+        p3.add_trick((0, 0, [Card::Blue(7), Card::Blue(8), Card::Blue(9)]).into())
             .unwrap();
-        p3.add_trick((1, [Card::Blue(6), Card::Blue(5), Card::Blue(4)]).into())
+        p3.add_trick((1, 2, [Card::Blue(6), Card::Blue(5), Card::Blue(4)]).into())
             .unwrap();
-        p3.add_trick((2, [Card::Blue(3), Card::Blue(1), Card::Blue(2)]).into())
+        p3.add_trick((2, 2, [Card::Blue(3), Card::Blue(1), Card::Blue(2)]).into())
             .unwrap();
         let state = State::new([p1, p2, p3]);
 
@@ -114,7 +114,7 @@ mod test {
         let task = TaskDontWinCards::new_from_values([5]);
         let p1 = Player::new([].into());
         let mut p2 = Player::new([].into());
-        p2.add_trick((0, [Card::Trump(4), Card::Red(5)]).into())
+        p2.add_trick((0, 1, [Card::Trump(4), Card::Red(5)]).into())
             .unwrap();
         p2.add_task(task);
         let state = State::new([p1, p2]);
@@ -131,9 +131,9 @@ mod test {
         let mut p1 = Player::new([Card::Red(2)].into());
         p1.add_task(task);
         let mut p2 = Player::new([Card::Yellow(6)].into());
-        p2.add_trick((0, [Card::Trump(4), Card::Green(5)]).into())
+        p2.add_trick((0, 1, [Card::Trump(4), Card::Green(5)]).into())
             .unwrap();
-        p2.add_trick((1, [Card::Red(9), Card::Blue(2)]).into())
+        p2.add_trick((1, 1, [Card::Red(9), Card::Blue(2)]).into())
             .unwrap();
         let state = State::new([p1, p2]);
 

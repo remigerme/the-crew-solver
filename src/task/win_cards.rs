@@ -84,7 +84,7 @@ mod test {
         let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![Card::Trump(4)].into());
         p1.add_task(task);
-        p1.add_trick((0, vec![Card::Blue(1), Card::Blue(2)]).into())
+        p1.add_trick((0, 0, vec![Card::Blue(1), Card::Blue(2)]).into())
             .unwrap();
 
         let p2 = Player::new(vec![Card::Trump(1)].into());
@@ -101,9 +101,9 @@ mod test {
         let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![].into());
         p1.add_task(task);
-        p1.add_trick((0, vec![Card::Blue(1), Card::Trump(4)]).into())
+        p1.add_trick((0, 0, vec![Card::Trump(4), Card::Blue(1)]).into())
             .unwrap();
-        p1.add_trick((1, vec![Card::Blue(2), Card::Red(8)]).into())
+        p1.add_trick((1, 0, vec![Card::Blue(2), Card::Red(8)]).into())
             .unwrap();
 
         let p2 = Player::new(vec![].into());
@@ -120,11 +120,11 @@ mod test {
         let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![].into());
         p1.add_task(task);
-        p1.add_trick((0, vec![Card::Blue(1), Card::Trump(4)]).into())
+        p1.add_trick((0, 0, vec![Card::Trump(4), Card::Blue(1)]).into())
             .unwrap();
 
         let mut p2 = Player::new(vec![].into());
-        p2.add_trick((1, vec![Card::Blue(2), Card::Red(1)]).into())
+        p2.add_trick((1, 1, vec![Card::Blue(2), Card::Red(1)]).into())
             .unwrap();
         let state = State::new(vec![p1, p2]);
 
@@ -139,7 +139,7 @@ mod test {
         let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![].into());
         p1.add_task(task);
-        p1.add_trick((0, vec![Card::Blue(1), Card::Trump(4)]).into())
+        p1.add_trick((0, 0, vec![Card::Trump(4), Card::Blue(1)]).into())
             .unwrap();
 
         let p2 = Player::new(vec![].into());
