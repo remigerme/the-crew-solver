@@ -1,5 +1,5 @@
 use crate::{
-    card::{COLOR_RANGE, Card},
+    card::Card,
     task::{Task, TaskStatus},
     trick::Trick,
 };

@@ -1,4 +1,4 @@
-use crate::{
+use the_crew_solver::{
     card::Card,
     player::Player,
     state::{GameError, State},
@@ -7,14 +7,6 @@ use crate::{
         win_cards::TaskWinCards,
     },
 };
-
-mod card;
-mod hand;
-mod player;
-mod solver;
-mod state;
-mod task;
-mod trick;
 
 fn main() {
     // Minimal demo
