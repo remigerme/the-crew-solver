@@ -29,8 +29,11 @@ pub enum GameError {
 }
 
 impl State {
-    pub fn retrieve_captain(players: &Vec<Player>) -> Result<usize, GameError> {
-        for (i, p) in players.iter().enumerate() {
+    pub fn retrieve_captain<'a, I>(players: I) -> Result<usize, GameError>
+    where
+        I: IntoIterator<Item = &'a Player>,
+    {
+        for (i, p) in players.into_iter().enumerate() {
             if p.is_captain() {
                 return Ok(i);
             }
@@ -95,6 +98,10 @@ impl State {
         self.players.len()
     }
 
+    pub fn get_players(&self) -> &[Player] {
+        &self.players
+    }
+
     pub fn get_player(&self, i: usize) -> &Player {
         &self.players[i]
     }
@@ -118,6 +125,12 @@ impl State {
 
     pub fn get_current_trick(&self) -> &Trick {
         &self.current_trick
+    }
+
+    pub fn n_tricks_left(&self) -> usize {
+        let cards_left: usize = self.players.iter().map(|p| p.get_hand().len()).sum();
+        let cards_left_before_trick = cards_left + self.current_trick.len();
+        cards_left_before_trick / self.n_players()
     }
 
     pub fn game_status(&self) -> TaskStatus {

@@ -103,12 +103,13 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (3/4/5) Win an 8 with a 4.
   - [x] (2/3/4) Win any 6 with a another 6.
   - [x] (3/4/5) Win a trick with a 2.
+- done in [`TaskWinNbTricksComparedCaptain`](win_nb_tricks_compared_captain.rs)
+  - [x] (2/2/3) Win more tricks than the captain (the captain can’t take this mission)
+  - [x] (2/2/2) Win fewer tricks than the captain (the captain can’t take this mission)
+  - [x] (4/3/3) Win the same number of tricks as the captain (the captain can’t take this mission)
 - [ ] (2/3/3) Win more tricks than everyone else
 - [ ] (3/4/5) Win more tricks than everyone else together
 - [ ] (2/2/3) Win fewer tricks than everyone else
-- [ ] (2/2/3) Win more tricks than the captain (the captain can’t take this mission)
-- [ ] (2/2/2) Win fewer tricks than the captain (the captain can’t take this mission)
-- [ ] (4/3/3) Win the same number of tricks as the captain (the captain can’t take this mission)
 - [ ] (2/3/3) Win a trick where all cards are of lower value than 7 without submarines
 - [ ] (2/3/4) Win a trick where all cards are of greater value than 5
 - [ ] (3/4/5) Win at least three 5s.
