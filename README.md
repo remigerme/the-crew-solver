@@ -2,7 +2,8 @@
 
 This is a solver for the board game [The Crew: Mission Deep Sea](https://store.thamesandkosmos.com/products/the-crew-mission-deep-sea). For more information on the game and a general overview of the solver, check [the blog article - [NOT DONE YET]](https://blog.remigerme.xyz/cs/the-crew) accompanying this project.
 
-> [!IMPORTANT] > **Call for contributors**: we are currently looking for contributors, check the [contribution guidelines](CONTRIBUTING.md) if you are interested.
+> [!IMPORTANT]
+> **Call for contributors**: we are currently looking for contributors, check the [contribution guidelines](CONTRIBUTING.md) if you are interested.
 
 ## The solver
 
