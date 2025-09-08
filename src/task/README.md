@@ -44,12 +44,13 @@ Refer to the docstrings in [`state.rs`](../state.rs). It basically contains all 
 
 To create a task:
 
-1. create new file in this folder which will contain the task
-2. define a public struct with a name prefixed with `Task` - feel free to define as many fields as needed, as well as private methods
-3. implement a public `new` method to construct the task (keep it generic)
-4. implement the [`Task`](../task.rs) trait - that is, implement the logic of the task
-5. (optional) write some tests to ensure the code behaves as expected
-6. add your public module to [`task.rs`](../task.rs).
+1. (optional yet strongly recommended) [open an issue](https://github.com/remigerme/the-crew-solver/issues/new) to let others you are working on this task
+2. create new file in this folder which will contain the task
+3. define a public struct with a name prefixed with `Task` - feel free to define as many fields as needed, as well as private methods
+4. implement a public `new` method to construct the task (keep it generic)
+5. implement the [`Task`](../task.rs) trait - that is, implement the logic of the task
+6. (optional) write some tests to ensure the code behaves as expected
+7. add your public module to [`task.rs`](../task.rs).
 
 You can check the provided [example](win_cards.rs).
 
