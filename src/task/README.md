@@ -107,11 +107,21 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (2/2/3) Win more tricks than the captain (the captain can’t take this mission)
   - [x] (2/2/2) Win fewer tricks than the captain (the captain can’t take this mission)
   - [x] (4/3/3) Win the same number of tricks as the captain (the captain can’t take this mission)
+- done in [`TaskWinTrickWithPred`](win_trick_with_pred.rs)
+  - [x] (2/3/3) Win a trick where all cards are of lower value than 7 without submarines
+  - [x] (2/3/4) Win a trick where all cards are of greater value than 5
+  - [x] (2/5/6) Win a trick that has only even numbers (2,4,6,8)
+  - [x] (2/4/5) Win a trick that has only odd numbers (1,3,5,7,9)
+  - [x] (3/3/4) Win a trick with a total value higher than 23/28/31 (3/4/5 players) without submarines
+  - [x] (3/3/4) Win a trick with a total value lower than 8/12/16 (3/4/5 players) without submarines
+  - [x] (3/3/4) Win a trick with a total value of 22 or 23
+  - [x] (2/3/3) Win the same amount of green and yellow cards in a trick (more than 0)
+  - [x] (2/3/3) Win the same amount of pink and blue cards in a trick (more than 0)
+  - [x] (3/3/3) Win the pink 7 with a submarine
+  - [x] (3/3/3) Win the green 9 with a submarine
 - [ ] (2/3/3) Win more tricks than everyone else
 - [ ] (3/4/5) Win more tricks than everyone else together
 - [ ] (2/2/3) Win fewer tricks than everyone else
-- [ ] (2/3/3) Win a trick where all cards are of lower value than 7 without submarines
-- [ ] (2/3/4) Win a trick where all cards are of greater value than 5
 - [ ] (3/4/5) Win at least three 5s.
 - [ ] (3/4/5) Win at least three 9s.
 - [ ] (2/2/2) Win at least two 7s.
@@ -126,18 +136,11 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - [ ] (3/3/4) Win exactly one pink card.
 - [ ] (2/3/4) Win at least one card of each colour (excluding submarines)
 - [ ] (3/4/5) Win all cards of at least one colour (excluding submarines)
-- [ ] (2/5/6) Win a trick that has only even numbers (2,4,6,8)
-- [ ] (2/4/5) Win a trick that has only numbers (1,3,5,7,9)
-- [ ] (3/3/4) Win a trick with a total value higher than 23/28/31 (3/4/5 players) without submarines
-- [ ] (3/3/4) Win a trick with a total value lower than 8/12/16 (3/4/5 players) without submarines
-- [ ] (3/3/4) Win a trick with a total value of 22 or 23
 - [ ] (3/3/3) Win exactly one submarine (deal new cards if someone has all submarines in hand)
 - [ ] (3/3/3) Win the 1 submarine and no other (deal new cards if someone has submarines no. 1 and 4 or 1,2,3 in hand)
 - [ ] (3/3/3) Win the 2 submarine and no other (deal new cards if someone has submarines no. 2 and 4 or 1,2,3 in hand)
 - [ ] (3/3/4) Win exactly two submarines (deal new cards if someone has submarines no. 2,3,4 in hand)
 - [ ] (3/4/4) Win exactly three submarines (deal new cards if someone has all submarines in hand)
-- [ ] (3/3/3) Win the pink 7 with a submarine
-- [ ] (3/3/3) Win the green 9 with a submarine
 - [ ] (1/2/3) Don’t win any of the first four tricks
 - [ ] (1/2/2) Don’t win any of the first three tricks
 - [ ] (2/3/3) Don’t win any of the first five tricks
@@ -160,7 +163,5 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - [ ] (3/2/2) Win X tricks (predict the exact number and show)
 - [ ] (4/3/3) Win X tricks (predict the exact number but keep hidden)
 - [ ] (4/4/4) Win the same amount of pink and yellow cards (more than 0)
-- [ ] (2/3/3) Win the same amount of green and yellow cards in a trick (more than 0)
-- [ ] (2/3/3) Win the same amount of pink and blue cards in a trick (more than 0)
 - [ ] (1/1/1) Win more yellow cards than blue cards (0 blue cards are allowed)
 - [ ] (1/1/1) Win more pink cards than green cards (0 green cards are allowed)
