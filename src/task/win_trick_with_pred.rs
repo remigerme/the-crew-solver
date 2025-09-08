@@ -2,6 +2,7 @@ use std::{collections::HashSet, fmt::Debug};
 
 use crate::{
     card::Card,
+    player,
     task::{Task, TaskStatus},
     trick::Trick,
 };
@@ -90,11 +91,21 @@ impl TaskWinTrickWithPred {
         }
     }
 
-    pub fn new_won_card_with_trump(card: Card) -> Self {
+    pub fn new_win_card_with_trump(card: Card) -> Self {
         assert!(card.is_valid());
         Self {
-            name: format!("won card {:?} with a submarine", card),
+            name: format!("win card {:?} with a submarine", card),
             pred: Box::new(move |t| t.iter().any(|c| *c == card) && t.iter().any(|c| c.is_trump())),
+        }
+    }
+
+    pub fn new_win_card_last_trick(card: Card, n_players: usize) -> Self {
+        assert!(card.is_valid());
+        player::check_valid_n_players(n_players).unwrap();
+        let last_trick = player::n_tricks_total(n_players) - 1;
+        Self {
+            name: format!("win card {:?} in the last trick ({})", card, last_trick),
+            pred: Box::new(move |t| t.idx() == last_trick && t.iter().any(|c| *c == card)),
         }
     }
 }
@@ -106,7 +117,8 @@ impl Task for TaskWinTrickWithPred {
         // (currently not supported because of the genericity):
         // - even/odd fail as soon as one player does not have an even/odd card anymore
         // - same_nb_colors fail as soon as one color has been fully played
-        // - won_card_with_trump fail as soon as card already won or no trump left in hand
+        // - win_card_with_trump fail as soon as card already won or no trump left in hand
+        // - win_card_last_trick fail as soon as card already won
         if state.get_player(ip).get_tricks().iter().any(&self.pred) {
             return TaskStatus::Done;
         }

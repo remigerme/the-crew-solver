@@ -61,7 +61,7 @@ Thank you for your help!
 
 ## Checklist
 
-**Status: 54/96.**
+**Status: 55/96.**
 
 From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards):
 
@@ -121,6 +121,7 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (2/3/3) Win the same amount of pink and blue cards in a trick (more than 0)
   - [x] (3/3/3) Win the pink 7 with a submarine
   - [x] (3/3/3) Win the green 9 with a submarine
+  - [x] (3/4/5) Win the green 2 in the last trick
 - done in [`TaskDontWinTricks`](dont_win_tricks.rs)
   - [x] (1/2/3) Don’t win any of the first four tricks
   - [x] (1/2/2) Don’t win any of the first three tricks
@@ -134,7 +135,6 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - [ ] (2/2/2) Win at least two 7s.
 - [ ] (3/4/4) Win exactly three 6s
 - [ ] (2/3/3) Win exactly two 9s
-- [ ] (3/4/5) Win the green 2 in the last trick
 - [ ] (4/4/4) Win exactly one pink and one green card
 - [ ] (3/3/3) Win at least seven yellow cards
 - [ ] (2/3/3) Win at least five pink cards
