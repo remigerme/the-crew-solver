@@ -61,6 +61,8 @@ Thank you for your help!
 
 ## Checklist
 
+**Status: 54/96.**
+
 From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards):
 
 - done in [`TaskWinCards`](win_cards.rs)
