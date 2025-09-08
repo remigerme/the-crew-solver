@@ -22,3 +22,4 @@ pub mod win_cards;
 pub mod win_nb_tricks_compared_captain;
 pub mod win_trick_with;
 pub mod win_trick_with_pred;
+pub mod win_tricks;

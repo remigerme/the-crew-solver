@@ -61,7 +61,7 @@ Thank you for your help!
 
 ## Checklist
 
-**Status: 55/96.**
+**Status: 62/96.**
 
 From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards):
 
@@ -127,6 +127,14 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (1/2/2) Don’t win any of the first three tricks
   - [x] (2/3/3) Don’t win any of the first five tricks
   - [x] (4/3/3) Don’t win any tricks
+- done in [`TaskWinTricks`](win_tricks.rs)
+  - [x] (2/3/3) Win the last trick
+  - [x] (2/3/4) Win the first three tricks
+  - [x] (1/1/2) Win the first two tricks
+  - [x] (1/1/1) Win the first trick
+  - [x] (3/4/4) Win the first and the last trick
+  - [x] (4/4/4) I win only the last trick
+  - [x] (4/3/3) I win only the first trick
 - [ ] (2/3/3) Win more tricks than everyone else
 - [ ] (3/4/5) Win more tricks than everyone else together
 - [ ] (2/2/3) Win fewer tricks than everyone else
@@ -149,13 +157,6 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - [ ] (3/3/4) Win exactly two submarines (deal new cards if someone has submarines no. 2,3,4 in hand)
 - [ ] (3/4/4) Win exactly three submarines (deal new cards if someone has all submarines in hand)
 - [ ] (3/2/2) Do not win two consecutive tricks.
-- [ ] (2/3/3) Win the last trick
-- [ ] (2/3/4) Win the first three tricks
-- [ ] (1/1/2) Win the first two tricks
-- [ ] (1/1/1) Win the first trick
-- [ ] (3/4/4) Win the first and the last trick
-- [ ] (4/4/4) I win only the last trick
-- [ ] (4/3/3) I win only the first trick
 - [ ] (3/2/2) Win exactly one trick
 - [ ] (2/2/2) Win exactly two tricks
 - [ ] (1/1/1) Win two consecutive tricks
