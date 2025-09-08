@@ -8,6 +8,30 @@ use crate::{
     trick::Trick,
 };
 
+pub fn check_valid_n_players(n_players: usize) -> Result<(), String> {
+    if n_players < 3 || n_players > 5 {
+        Err(format!(
+            "Invalid number of players: expected between 3 and 5 (inclusive), found {}",
+            n_players
+        ))
+    } else {
+        Ok(())
+    }
+}
+
+pub fn n_tricks_total(n_players: usize) -> usize {
+    check_valid_n_players(n_players).unwrap();
+    if n_players == 3 {
+        13
+    } else if n_players == 4 {
+        10
+    } else if n_players == 5 {
+        8
+    } else {
+        panic!("Should not happen - number of players should have been checked.")
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct Player {
     hand: Hand,

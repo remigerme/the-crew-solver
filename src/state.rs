@@ -3,7 +3,7 @@ use thiserror::Error;
 
 use crate::{
     card::{self, COLOR_RANGE, COLORS, Card, NB_CARDS, TRUMP_RANGE},
-    player::Player,
+    player::{self, Player},
     task::TaskStatus,
     trick::Trick,
 };
@@ -54,12 +54,7 @@ impl State {
     }
 
     pub fn new_random(n_players: usize) -> Self {
-        if n_players <= 1 || n_players >= 6 {
-            panic!(
-                "Could not create a game with {} players (expected between 2 and 5 inclusive).",
-                n_players
-            );
-        }
+        player::check_valid_n_players(n_players).unwrap();
 
         let mut cards = Vec::new();
         for i in COLOR_RANGE {
