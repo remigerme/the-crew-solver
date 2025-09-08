@@ -119,6 +119,11 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (2/3/3) Win the same amount of pink and blue cards in a trick (more than 0)
   - [x] (3/3/3) Win the pink 7 with a submarine
   - [x] (3/3/3) Win the green 9 with a submarine
+- done in [`TaskDontWinTricks`](dont_win_tricks.rs)
+  - [x] (1/2/3) Don’t win any of the first four tricks
+  - [x] (1/2/2) Don’t win any of the first three tricks
+  - [x] (2/3/3) Don’t win any of the first five tricks
+  - [x] (4/3/3) Don’t win any tricks
 - [ ] (2/3/3) Win more tricks than everyone else
 - [ ] (3/4/5) Win more tricks than everyone else together
 - [ ] (2/2/3) Win fewer tricks than everyone else
@@ -141,10 +146,6 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - [ ] (3/3/3) Win the 2 submarine and no other (deal new cards if someone has submarines no. 2 and 4 or 1,2,3 in hand)
 - [ ] (3/3/4) Win exactly two submarines (deal new cards if someone has submarines no. 2,3,4 in hand)
 - [ ] (3/4/4) Win exactly three submarines (deal new cards if someone has all submarines in hand)
-- [ ] (1/2/3) Don’t win any of the first four tricks
-- [ ] (1/2/2) Don’t win any of the first three tricks
-- [ ] (2/3/3) Don’t win any of the first five tricks
-- [ ] (4/3/3) Don’t win any tricks
 - [ ] (3/2/2) Do not win two consecutive tricks.
 - [ ] (2/3/3) Win the last trick
 - [ ] (2/3/4) Win the first three tricks
