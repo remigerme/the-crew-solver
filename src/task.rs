@@ -19,6 +19,7 @@ pub mod dont_open_trick_with;
 pub mod dont_win_cards;
 pub mod dont_win_tricks;
 pub mod win_cards;
+pub mod win_nb_tricks;
 pub mod win_nb_tricks_compared_captain;
 pub mod win_trick_with;
 pub mod win_trick_with_pred;
