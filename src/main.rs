@@ -22,7 +22,7 @@ fn main() {
         Err(e) => eprintln!("Error encountered: {}", e),
     }
 
-    // Real world demo
+    // Intermediate demo
     let mut state = State::new_random(4);
     state.get_mut_player(0).add_task(TaskWinCards::new([
         Card::Blue(1),
@@ -53,4 +53,128 @@ fn main() {
         Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
         Err(e) => eprintln!("Error encountered: {}", e),
     }
+
+    // First real-world usecase
+    // let mut r = Player::new(
+    //     [
+    //         Card::Trump(1),
+    //         Card::Blue(8),
+    //         Card::Blue(1),
+    //         Card::Red(1),
+    //         Card::Yellow(8),
+    //     ]
+    //     .into(),
+    // );
+    // r.add_task(TaskDontOpenTrickWith::new([
+    //     Card::Green as fn(usize) -> Card,
+    //     Card::Red,
+    // ]));
+    // let mut m = Player::new(
+    //     [
+    //         Card::Trump(4),
+    //         Card::Yellow(6),
+    //         Card::Blue(6),
+    //         Card::Red(2),
+    //         Card::Red(5),
+    //     ]
+    //     .into(),
+    // );
+    // m.add_task(TaskWinTrickWithPred::new_odd());
+    // m.add_task(TaskWinCardsAmountColor::new_at_least_5_pink());
+    // m.add_trick(
+    //     (
+    //         3,
+    //         0,
+    //         [
+    //             Card::Green(9),
+    //             Card::Green(1),
+    //             Card::Green(8),
+    //             Card::Green(6),
+    //         ],
+    //     )
+    //         .into(),
+    // )
+    // .unwrap();
+    // m.add_trick(
+    //     (
+    //         4,
+    //         0,
+    //         [Card::Red(7), Card::Red(8), Card::Red(9), Card::Trump(2)],
+    //     )
+    //         .into(),
+    // )
+    // .unwrap();
+    // let mut f = Player::new(
+    //     [
+    //         Card::Trump(3),
+    //         Card::Green(7),
+    //         Card::Green(3),
+    //         Card::Red(4),
+    //         Card::Red(6),
+    //     ]
+    //     .into(),
+    // );
+    // f.add_task(TaskWinCards::new([
+    //     Card::Blue(3),
+    //     Card::Red(3),
+    //     Card::Green(3),
+    //     Card::Yellow(3),
+    // ]));
+    // f.add_trick(
+    //     (
+    //         0,
+    //         0,
+    //         [
+    //             Card::Yellow(1),
+    //             Card::Yellow(4),
+    //             Card::Yellow(7),
+    //             Card::Red(3),
+    //         ],
+    //     )
+    //         .into(),
+    // )
+    // .unwrap();
+    // f.add_trick(
+    //     (
+    //         1,
+    //         0,
+    //         [
+    //             Card::Yellow(9),
+    //             Card::Yellow(2),
+    //             Card::Yellow(5),
+    //             Card::Yellow(3),
+    //         ],
+    //     )
+    //         .into(),
+    // )
+    // .unwrap();
+    // f.add_trick(
+    //     (
+    //         2,
+    //         0,
+    //         [Card::Blue(4), Card::Blue(2), Card::Blue(3), Card::Blue(7)],
+    //     )
+    //         .into(),
+    // )
+    // .unwrap();
+    // let mut l = Player::new(
+    //     [
+    //         Card::Blue(9),
+    //         Card::Blue(5),
+    //         Card::Green(5),
+    //         Card::Green(4),
+    //         Card::Green(2),
+    //     ]
+    //     .into(),
+    // );
+    // l.add_task(TaskDontWinCards::new_from_colors([
+    //     Card::Trump as fn(usize) -> Card
+    // ]));
+    // let mut state = State::new([m, l, r, f]);
+    // state.current_trick = (5, 0, []).into(); // You need to make it public to run this example
+    // match state.play() {
+    //     Ok(solution) => println!("Found a solution: {:?}", solution),
+    //     Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
+    //     Err(e) => eprintln!("Error encountered: {}", e),
+    // }
 }
