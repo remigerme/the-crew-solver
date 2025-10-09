@@ -62,7 +62,7 @@ Thank you for your help!
 
 ## Checklist
 
-**Status: 62/96.**
+**Status: 73/96.**
 
 From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards):
 
@@ -142,6 +142,13 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (2/3/5) Win exactly four tricks
   - [x] (3/2/2) Win X tricks (predict the exact number and show)
   - [x] (4/3/3) Win X tricks (predict the exact number but keep hidden)
+- done in [`TaskWinCardsAmountColor`](win_cards_amount_color.rs)
+  - [x] (4/4/4) Win exactly one pink and one green card
+  - [x] (3/3/3) Win at least seven yellow cards
+  - [x] (2/3/3) Win at least five pink cards
+  - [x] (3/4/4) Win exactly two green cards.
+  - [x] (3/4/4) Win exactly two blue cards.
+  - [x] (3/3/4) Win exactly one pink card.
 - [ ] (2/3/3) Win more tricks than everyone else
 - [ ] (3/4/5) Win more tricks than everyone else together
 - [ ] (2/2/3) Win fewer tricks than everyone else
@@ -150,12 +157,6 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
 - [ ] (2/2/2) Win at least two 7s.
 - [ ] (3/4/4) Win exactly three 6s
 - [ ] (2/3/3) Win exactly two 9s
-- [ ] (4/4/4) Win exactly one pink and one green card
-- [ ] (3/3/3) Win at least seven yellow cards
-- [ ] (2/3/3) Win at least five pink cards
-- [ ] (3/4/4) Win exactly two green cards.
-- [ ] (3/4/4) Win exactly two blue cards.
-- [ ] (3/3/4) Win exactly one pink card.
 - [ ] (2/3/4) Win at least one card of each colour (excluding submarines)
 - [ ] (3/4/5) Win all cards of at least one colour (excluding submarines)
 - [ ] (3/3/3) Win exactly one submarine (deal new cards if someone has all submarines in hand)
