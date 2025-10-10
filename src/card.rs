@@ -12,11 +12,31 @@ pub enum Card {
     Trump(usize),
 }
 
+macro_rules! card_ctor_decl {
+    ($name:ident, $ctor:expr) => {
+        pub fn $name(x: usize) -> Card {
+            let c = $ctor(x);
+            if !c.is_valid() {
+                panic!("Trying to construct an invalid card {:?}", c);
+            }
+            c
+        }
+    };
+}
+
+card_ctor_decl!(red, Card::Red);
+card_ctor_decl!(green, Card::Green);
+card_ctor_decl!(blue, Card::Blue);
+card_ctor_decl!(yellow, Card::Yellow);
+card_ctor_decl!(trump, Card::Trump);
+
 impl Card {
     pub fn is_valid(&self) -> bool {
         match *self {
-            Card::Red(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) => 1 <= x && x <= 9,
-            Card::Trump(x) => 1 <= x && x <= 4,
+            Card::Red(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) => {
+                COLOR_RANGE.contains(&x)
+            }
+            Card::Trump(x) => TRUMP_RANGE.contains(&x),
         }
     }
 
