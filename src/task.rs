@@ -55,6 +55,14 @@ macro_rules! decl_dont_win_cards_values {
     };
 }
 
+macro_rules! decl_dont_open_with {
+    ($name:ident, $($color:expr),*) => {
+        pub fn $name() -> dont_open_trick_with::TaskDontOpenTrickWith {
+            dont_open_trick_with::TaskDontOpenTrickWith::new([$($color),*])
+        }
+    };
+}
+
 decl_win_cards!(win_pink_1, pink(1));
 decl_win_cards!(win_yellow_1, yellow(1));
 decl_win_cards!(win_blue_4, blue(4));
@@ -84,3 +92,6 @@ decl_dont_win_cards_values!(dont_win_9, 9);
 decl_dont_win_cards_values!(dont_win_5, 5);
 decl_dont_win_cards_values!(dont_win_1, 1);
 decl_dont_win_cards_values!(dont_win_1_2_3, 1, 2, 3);
+
+decl_dont_open_with!(dont_open_with_pink_yellow_blue, PINK, YELLOW, BLUE);
+decl_dont_open_with!(dont_open_with_pink_green, PINK, GREEN);
