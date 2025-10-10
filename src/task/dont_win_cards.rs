@@ -94,7 +94,7 @@ mod test {
         let p1 = Player::new([Card::Trump(4)].into());
         let mut p2 = Player::new([Card::Green(4)].into());
         p2.add_task(task);
-        let mut p3 = Player::new([Card::Red(8)].into());
+        let mut p3 = Player::new([Card::Pink(8)].into());
         p3.add_trick((0, 0, [Card::Blue(7), Card::Blue(8), Card::Blue(9)]).into())
             .unwrap();
         p3.add_trick((1, 2, [Card::Blue(6), Card::Blue(5), Card::Blue(4)]).into())
@@ -114,7 +114,7 @@ mod test {
         let task = TaskDontWinCards::new_from_values([5]);
         let p1 = Player::new([].into());
         let mut p2 = Player::new([].into());
-        p2.add_trick((0, 1, [Card::Trump(4), Card::Red(5)]).into())
+        p2.add_trick((0, 1, [Card::Trump(4), Card::Pink(5)]).into())
             .unwrap();
         p2.add_task(task);
         let state = State::new([p1, p2]);
@@ -126,19 +126,20 @@ mod test {
     }
 
     #[test]
-    fn unknown_green_red_2_tricks() {
-        let task = TaskDontWinCards::new_from_colors([Card::Green as fn(usize) -> Card, Card::Red]);
-        let mut p1 = Player::new([Card::Red(2)].into());
+    fn unknown_green_pink_2_tricks() {
+        let task =
+            TaskDontWinCards::new_from_colors([Card::Green as fn(usize) -> Card, Card::Pink]);
+        let mut p1 = Player::new([Card::Pink(2)].into());
         p1.add_task(task);
         let mut p2 = Player::new([Card::Yellow(6)].into());
         p2.add_trick((0, 1, [Card::Trump(4), Card::Green(5)]).into())
             .unwrap();
-        p2.add_trick((1, 1, [Card::Red(9), Card::Blue(2)]).into())
+        p2.add_trick((1, 1, [Card::Pink(9), Card::Blue(2)]).into())
             .unwrap();
         let state = State::new([p1, p2]);
 
         assert_eq!(
-            TaskDontWinCards::new_from_colors([Card::Green as fn(usize) -> Card, Card::Red])
+            TaskDontWinCards::new_from_colors([Card::Green as fn(usize) -> Card, Card::Pink])
                 .eval(&state, 0),
             TaskStatus::Unknown
         );

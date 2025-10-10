@@ -123,11 +123,11 @@ mod test {
 
     #[test]
     fn test_remove_card_from_hand() {
-        let mut p = Player::new(vec![Card::Yellow(6), Card::Red(2)].into());
+        let mut p = Player::new(vec![Card::Yellow(6), Card::Pink(2)].into());
 
         assert!(p.remove_card_from_hand(&Card::Yellow(6)).is_ok());
         assert!(p.remove_card_from_hand(&Card::Yellow(6)).is_err());
-        assert!(p.remove_card_from_hand(&Card::Red(4)).is_err());
-        assert_eq!(*p.get_hand(), vec![Card::Red(2)].into());
+        assert!(p.remove_card_from_hand(&Card::Pink(4)).is_err());
+        assert_eq!(*p.get_hand(), vec![Card::Pink(2)].into());
     }
 }

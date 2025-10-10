@@ -144,7 +144,7 @@ mod test {
         let mut trick: Trick = (
             0,
             0,
-            vec![Card::Blue(1), Card::Red(2), Card::Red(9), Card::Yellow(8)],
+            vec![Card::Blue(1), Card::Pink(2), Card::Pink(9), Card::Yellow(8)],
         )
             .into();
 

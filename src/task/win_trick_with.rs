@@ -27,7 +27,7 @@ impl Task for TaskWinTrickWith {
             Some(c) => {
                 t.contains(&Card::Blue(c))
                     || t.contains(&Card::Green(c))
-                    || t.contains(&Card::Red(c))
+                    || t.contains(&Card::Pink(c))
                     || t.contains(&Card::Yellow(c))
             }
         };

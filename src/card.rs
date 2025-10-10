@@ -1,11 +1,11 @@
 pub const NB_CARDS: usize = 40;
-pub const COLORS: [fn(usize) -> Card; 4] = [Card::Red, Card::Green, Card::Blue, Card::Yellow];
+pub const COLORS: [fn(usize) -> Card; 4] = [Card::Pink, Card::Green, Card::Blue, Card::Yellow];
 pub const COLOR_RANGE: std::ops::Range<usize> = 1..10;
 pub const TRUMP_RANGE: std::ops::Range<usize> = 1..5;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Card {
-    Red(usize),
+    Pink(usize),
     Green(usize),
     Blue(usize),
     Yellow(usize),
@@ -24,7 +24,7 @@ macro_rules! card_ctor_decl {
     };
 }
 
-card_ctor_decl!(red, Card::Red);
+card_ctor_decl!(pink, Card::Pink);
 card_ctor_decl!(green, Card::Green);
 card_ctor_decl!(blue, Card::Blue);
 card_ctor_decl!(yellow, Card::Yellow);
@@ -33,7 +33,7 @@ card_ctor_decl!(trump, Card::Trump);
 impl Card {
     pub fn is_valid(&self) -> bool {
         match *self {
-            Card::Red(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) => {
+            Card::Pink(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) => {
                 COLOR_RANGE.contains(&x)
             }
             Card::Trump(x) => TRUMP_RANGE.contains(&x),
@@ -42,7 +42,7 @@ impl Card {
 
     pub fn val(&self) -> usize {
         match *self {
-            Card::Red(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) | Card::Trump(x) => x,
+            Card::Pink(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) | Card::Trump(x) => x,
         }
     }
 
@@ -53,7 +53,7 @@ impl Card {
     pub fn same_color(&self, other: &Card) -> bool {
         matches!(
             (self, other),
-            (Card::Red(_), Card::Red(_))
+            (Card::Pink(_), Card::Pink(_))
                 | (Card::Green(_), Card::Green(_))
                 | (Card::Blue(_), Card::Blue(_))
                 | (Card::Yellow(_), Card::Yellow(_))
@@ -133,7 +133,7 @@ mod test {
     #[test]
     fn test_is_same_color_different() {
         let variants = [
-            (10, Card::Red as fn(usize) -> Card),
+            (10, Card::Pink as fn(usize) -> Card),
             (10, Card::Green),
             (10, Card::Blue),
             (10, Card::Yellow),

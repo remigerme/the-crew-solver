@@ -21,7 +21,7 @@ impl TaskWinCardsAmountColor {
     }
 
     pub fn new_exactly_1_pink_1_green() -> Self {
-        let constraints = HashMap::from([(Card::Red as fn(usize) -> Card, 1), (Card::Green, 1)]);
+        let constraints = HashMap::from([(Card::Pink as fn(usize) -> Card, 1), (Card::Green, 1)]);
         Self::new(true, constraints)
     }
 
@@ -31,12 +31,12 @@ impl TaskWinCardsAmountColor {
     }
 
     pub fn new_at_least_5_pink() -> Self {
-        let constraints = HashMap::from([(Card::Red as fn(usize) -> Card, 5)]);
+        let constraints = HashMap::from([(Card::Pink as fn(usize) -> Card, 5)]);
         Self::new(false, constraints)
     }
 
     pub fn new_exactly_1_pink() -> Self {
-        let constraints = HashMap::from([(Card::Red as fn(usize) -> Card, 1)]);
+        let constraints = HashMap::from([(Card::Pink as fn(usize) -> Card, 1)]);
         Self::new(true, constraints)
     }
 

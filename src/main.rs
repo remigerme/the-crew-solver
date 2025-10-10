@@ -11,9 +11,9 @@ use the_crew_solver::{
 fn main() {
     // Minimal demo
     let mut p1 = Player::new(vec![Card::Trump(4), Card::Blue(2)].into());
-    let p2 = Player::new(vec![Card::Blue(1), Card::Red(6)].into());
+    let p2 = Player::new(vec![Card::Blue(1), Card::Pink(6)].into());
 
-    p1.add_task(TaskWinCards::new([Card::Blue(1), Card::Red(6)]));
+    p1.add_task(TaskWinCards::new([Card::Blue(1), Card::Pink(6)]));
 
     let mut s = State::new(vec![p1, p2]);
     match s.play() {
@@ -26,7 +26,7 @@ fn main() {
     let mut state = State::new_random(4);
     state.get_mut_player(0).add_task(TaskWinCards::new([
         Card::Blue(1),
-        Card::Red(6),
+        Card::Pink(6),
         Card::Green(9),
         Card::Yellow(4),
     ]));
@@ -40,7 +40,7 @@ fn main() {
         .get_mut_player(2)
         .add_task(TaskDontOpenTrickWith::new([
             Card::Blue as fn(usize) -> Card,
-            Card::Red,
+            Card::Pink,
         ]));
     state
         .get_mut_player(3)
@@ -60,22 +60,22 @@ fn main() {
     //         Card::Trump(1),
     //         Card::Blue(8),
     //         Card::Blue(1),
-    //         Card::Red(1),
+    //         Card::Pink(1),
     //         Card::Yellow(8),
     //     ]
     //     .into(),
     // );
     // r.add_task(TaskDontOpenTrickWith::new([
     //     Card::Green as fn(usize) -> Card,
-    //     Card::Red,
+    //     Card::Pink,
     // ]));
     // let mut m = Player::new(
     //     [
     //         Card::Trump(4),
     //         Card::Yellow(6),
     //         Card::Blue(6),
-    //         Card::Red(2),
-    //         Card::Red(5),
+    //         Card::Pink(2),
+    //         Card::Pink(5),
     //     ]
     //     .into(),
     // );
@@ -99,7 +99,7 @@ fn main() {
     //     (
     //         4,
     //         0,
-    //         [Card::Red(7), Card::Red(8), Card::Red(9), Card::Trump(2)],
+    //         [Card::Pink(7), Card::Pink(8), Card::Pink(9), Card::Trump(2)],
     //     )
     //         .into(),
     // )
@@ -109,14 +109,14 @@ fn main() {
     //         Card::Trump(3),
     //         Card::Green(7),
     //         Card::Green(3),
-    //         Card::Red(4),
-    //         Card::Red(6),
+    //         Card::Pink(4),
+    //         Card::Pink(6),
     //     ]
     //     .into(),
     // );
     // f.add_task(TaskWinCards::new([
     //     Card::Blue(3),
-    //     Card::Red(3),
+    //     Card::Pink(3),
     //     Card::Green(3),
     //     Card::Yellow(3),
     // ]));
@@ -128,7 +128,7 @@ fn main() {
     //             Card::Yellow(1),
     //             Card::Yellow(4),
     //             Card::Yellow(7),
-    //             Card::Red(3),
+    //             Card::Pink(3),
     //         ],
     //     )
     //         .into(),

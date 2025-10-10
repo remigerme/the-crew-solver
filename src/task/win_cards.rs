@@ -103,7 +103,7 @@ mod test {
         p1.add_task(task);
         p1.add_trick((0, 0, vec![Card::Trump(4), Card::Blue(1)]).into())
             .unwrap();
-        p1.add_trick((1, 0, vec![Card::Blue(2), Card::Red(8)]).into())
+        p1.add_trick((1, 0, vec![Card::Blue(2), Card::Pink(8)]).into())
             .unwrap();
 
         let p2 = Player::new(vec![].into());
@@ -124,7 +124,7 @@ mod test {
             .unwrap();
 
         let mut p2 = Player::new(vec![].into());
-        p2.add_trick((1, 1, vec![Card::Blue(2), Card::Red(1)]).into())
+        p2.add_trick((1, 1, vec![Card::Blue(2), Card::Pink(1)]).into())
             .unwrap();
         let state = State::new(vec![p1, p2]);
 

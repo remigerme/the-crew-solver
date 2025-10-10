@@ -81,13 +81,16 @@ mod test {
 
     #[test]
     fn test_playable_cards() {
-        let hand: Hand = vec![Card::Blue(1), Card::Blue(2), Card::Red(5), Card::Trump(3)].into();
+        let hand: Hand = vec![Card::Blue(1), Card::Blue(2), Card::Pink(5), Card::Trump(3)].into();
 
         assert_eq!(
             hand.playable_cards(Some(&Card::Blue(5))),
             vec![Card::Blue(1), Card::Blue(2)]
         );
-        assert_eq!(hand.playable_cards(Some(&Card::Red(3))), vec![Card::Red(5)]);
+        assert_eq!(
+            hand.playable_cards(Some(&Card::Pink(3))),
+            vec![Card::Pink(5)]
+        );
         assert_eq!(
             hand.playable_cards(Some(&Card::Trump(4))),
             vec![Card::Trump(3)]
