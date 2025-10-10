@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 
 use crate::{
-    card::{blue, green, pink, submarine, yellow},
+    card::{BLUE, GREEN, PINK, SUBMARINE, YELLOW, blue, green, pink, submarine, yellow},
     state::State,
 };
 
@@ -39,6 +39,22 @@ macro_rules! decl_win_cards {
     };
 }
 
+macro_rules! decl_dont_win_cards_colors {
+    ($name:ident, $($color:expr),*) => {
+        pub fn $name() -> dont_win_cards::TaskDontWinCards {
+            dont_win_cards::TaskDontWinCards::new_from_colors([$($color),*])
+        }
+    };
+}
+
+macro_rules! decl_dont_win_cards_values {
+    ($name:ident, $($value:expr),*) => {
+        pub fn $name() -> dont_win_cards::TaskDontWinCards {
+            dont_win_cards::TaskDontWinCards::new_from_values([$($value),*])
+        }
+    };
+}
+
 decl_win_cards!(win_pink_1, pink(1));
 decl_win_cards!(win_yellow_1, yellow(1));
 decl_win_cards!(win_blue_4, blue(4));
@@ -55,3 +71,16 @@ decl_win_cards!(win_pink_1_green_7, pink(1), green(7));
 decl_win_cards!(win_yellow_9_blue_7, yellow(9), blue(7));
 decl_win_cards!(win_green_3_yellow_4_5, green(3), yellow(4), yellow(5));
 decl_win_cards!(win_3_submarine, submarine(3));
+
+decl_dont_win_cards_colors!(dont_win_pink, PINK);
+decl_dont_win_cards_colors!(dont_win_submarine, SUBMARINE);
+decl_dont_win_cards_colors!(dont_win_green, GREEN);
+decl_dont_win_cards_colors!(dont_win_yellow, YELLOW);
+decl_dont_win_cards_colors!(dont_win_pink_blue, PINK, BLUE);
+decl_dont_win_cards_colors!(dont_win_yellow_green, YELLOW, GREEN);
+
+decl_dont_win_cards_values!(dont_win_8_9, 8, 9);
+decl_dont_win_cards_values!(dont_win_9, 9);
+decl_dont_win_cards_values!(dont_win_5, 5);
+decl_dont_win_cards_values!(dont_win_1, 1);
+decl_dont_win_cards_values!(dont_win_1_2_3, 1, 2, 3);
