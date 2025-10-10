@@ -28,7 +28,7 @@ card_ctor_decl!(pink, Card::Pink);
 card_ctor_decl!(green, Card::Green);
 card_ctor_decl!(blue, Card::Blue);
 card_ctor_decl!(yellow, Card::Yellow);
-card_ctor_decl!(trump, Card::Trump);
+card_ctor_decl!(submarine, Card::Trump);
 
 impl Card {
     pub fn is_valid(&self) -> bool {
