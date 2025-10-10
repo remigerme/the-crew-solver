@@ -59,63 +59,37 @@ fn count_won(tricks: &[Trick], color: fn(usize) -> Card) -> usize {
 
 impl Task for TaskWinCardsAmountColor {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
-        // Constraints are exact
-        if self.exactly {
-            let mut done = true;
-            for (&color, &v) in &self.constraints {
-                assert!(COLORS.contains(&color));
-                let won_by_ip = count_won(state.get_player(ip).get_tricks(), color);
-                if won_by_ip > v {
-                    return TaskStatus::Failed;
-                }
-                let missing = v - won_by_ip;
-                let mut won_by_others = 0;
-                for i in 0..state.n_players() {
-                    if i != ip {
-                        won_by_others += count_won(state.get_player(i).get_tricks(), color);
-                    }
-                }
-                let available = COLOR_RANGE.len() - (won_by_ip + won_by_others);
-                if available < missing {
-                    return TaskStatus::Failed;
-                }
-                done &= available == 0;
+        let mut done = true;
+        for (&color, &v) in &self.constraints {
+            assert!(COLORS.contains(&color));
+            let won_by_ip = count_won(state.get_player(ip).get_tricks(), color);
+
+            if self.exactly && won_by_ip > v {
+                return TaskStatus::Failed;
             }
 
-            if done {
-                return TaskStatus::Done;
+            if !self.exactly && won_by_ip >= v {
+                continue;
             }
 
-            TaskStatus::Unknown
+            let missing = v - won_by_ip;
+            let mut won_by_others = 0;
+            for i in 0..state.n_players() {
+                if i != ip {
+                    won_by_others += count_won(state.get_player(i).get_tricks(), color);
+                }
+            }
+            let available = COLOR_RANGE.len() - (won_by_ip + won_by_others);
+            if available < missing {
+                return TaskStatus::Failed;
+            }
+            done &= (self.exactly && available == 0) || (!self.exactly && won_by_ip >= v);
         }
-        // Constraints are lower bounds
-        else {
-            let mut done = true;
-            for (&color, &v) in &self.constraints {
-                done &= count_won(state.get_player(ip).get_tricks(), color) >= v;
-            }
 
-            if done {
-                return TaskStatus::Done;
-            }
-
-            for (&color, &v) in &self.constraints {
-                assert!(COLORS.contains(&color));
-                let won_by_ip = count_won(state.get_player(ip).get_tricks(), color);
-                let missing = v - won_by_ip;
-                let mut won_by_others = 0;
-                for i in 0..state.n_players() {
-                    if i != ip {
-                        won_by_others += count_won(state.get_player(i).get_tricks(), color);
-                    }
-                }
-                let available = COLOR_RANGE.len() - (won_by_ip + won_by_others);
-                if available < missing {
-                    return TaskStatus::Failed;
-                }
-            }
-
-            TaskStatus::Unknown
+        if done {
+            return TaskStatus::Done;
         }
+
+        TaskStatus::Unknown
     }
 }
