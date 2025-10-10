@@ -40,7 +40,7 @@ impl Task for TaskWinTrickWith {
         // If player does not have a card of the required value, task is failed
         let mut missing_in_hand = true;
         for c in p.get_hand().iter() {
-            if c.val() == self.win_with && !c.is_trump() {
+            if c.val() == self.win_with && !c.is_submarine() {
                 missing_in_hand = false;
             }
         }
@@ -57,7 +57,7 @@ impl Task for TaskWinTrickWith {
                 }
 
                 for c in state.get_player(i).get_hand().iter() {
-                    if c.val() == target_val && !c.is_trump() {
+                    if c.val() == target_val && !c.is_submarine() {
                         missing_other_card = false;
                     }
                 }

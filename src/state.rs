@@ -2,7 +2,7 @@ use rand::seq::SliceRandom;
 use thiserror::Error;
 
 use crate::{
-    card::{self, COLOR_RANGE, COLORS, Card, NB_CARDS, TRUMP_RANGE},
+    card::{self, COLOR_RANGE, COLORS, Card, NB_CARDS, SUBMARINE_RANGE},
     player::{self, Player},
     task::TaskStatus,
     trick::Trick,
@@ -16,7 +16,7 @@ pub struct State {
 
 #[derive(Debug, Error)]
 pub enum GameError {
-    #[error("Captain was not found - is there a 4 of trump in the game?")]
+    #[error("Captain was not found - is there a 4 of submarine in the game?")]
     MissingCaptain,
     #[error("Invalid trick size: expected {0}, got {1}.")]
     InvalidTrickSize(usize, usize),
@@ -62,8 +62,8 @@ impl State {
                 cards.push(variant(i));
             }
         }
-        for i in TRUMP_RANGE {
-            cards.push(Card::Trump(i));
+        for i in SUBMARINE_RANGE {
+            cards.push(Card::Submarine(i));
         }
 
         let mut rng = rand::rng();

@@ -85,8 +85,8 @@ impl Trick {
     }
 
     fn winner_rel(&self) -> usize {
-        if self.cards.iter().any(Card::is_trump) {
-            self.argmax(Card::is_trump)
+        if self.cards.iter().any(Card::is_submarine) {
+            self.argmax(Card::is_submarine)
         } else {
             let first_card = self.cards[0];
             self.argmax(|c| c.same_color(&first_card))
@@ -158,11 +158,16 @@ mod test {
     }
 
     #[test]
-    fn test_winner_some_trumped() {
+    fn test_winner_some_submarined() {
         let mut trick: Trick = (
             0,
             0,
-            vec![Card::Blue(1), Card::Blue(7), Card::Trump(2), Card::Trump(3)],
+            vec![
+                Card::Blue(1),
+                Card::Blue(7),
+                Card::Submarine(2),
+                Card::Submarine(3),
+            ],
         )
             .into();
 

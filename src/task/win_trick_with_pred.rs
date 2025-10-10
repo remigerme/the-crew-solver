@@ -44,7 +44,7 @@ impl TaskWinTrickWithPred {
     pub fn new_lower(value: usize) -> Self {
         Self {
             name: format!("lower than {} (without submarines)", value),
-            pred: Box::new(move |t| t.iter().all(|c| c.val() < value && !c.is_trump())),
+            pred: Box::new(move |t| t.iter().all(|c| c.val() < value && !c.is_submarine())),
         }
     }
 
@@ -52,7 +52,8 @@ impl TaskWinTrickWithPred {
         Self {
             name: format!("total value greather than {} (without submarines)", value),
             pred: Box::new(move |t| {
-                t.iter().all(|c| !c.is_trump()) && t.iter().map(|c| c.val()).sum::<usize>() > value
+                t.iter().all(|c| !c.is_submarine())
+                    && t.iter().map(|c| c.val()).sum::<usize>() > value
             }),
         }
     }
@@ -61,7 +62,8 @@ impl TaskWinTrickWithPred {
         Self {
             name: format!("total value lower than {} (without submarines)", value),
             pred: Box::new(move |t| {
-                t.iter().all(|c| !c.is_trump()) && t.iter().map(|c| c.val()).sum::<usize>() < value
+                t.iter().all(|c| !c.is_submarine())
+                    && t.iter().map(|c| c.val()).sum::<usize>() < value
             }),
         }
     }
@@ -95,7 +97,9 @@ impl TaskWinTrickWithPred {
         assert!(card.is_valid());
         Self {
             name: format!("win card {:?} with a submarine", card),
-            pred: Box::new(move |t| t.iter().any(|c| *c == card) && t.iter().any(|c| c.is_trump())),
+            pred: Box::new(move |t| {
+                t.iter().any(|c| *c == card) && t.iter().any(|c| c.is_submarine())
+            }),
         }
     }
 

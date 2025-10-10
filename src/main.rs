@@ -10,7 +10,7 @@ use the_crew_solver::{
 
 fn main() {
     // Minimal demo
-    let mut p1 = Player::new(vec![Card::Trump(4), Card::Blue(2)].into());
+    let mut p1 = Player::new(vec![Card::Submarine(4), Card::Blue(2)].into());
     let p2 = Player::new(vec![Card::Blue(1), Card::Pink(6)].into());
 
     p1.add_task(TaskWinCards::new([Card::Blue(1), Card::Pink(6)]));
@@ -57,7 +57,7 @@ fn main() {
     // First real-world usecase
     // let mut r = Player::new(
     //     [
-    //         Card::Trump(1),
+    //         Card::Submarine(1),
     //         Card::Blue(8),
     //         Card::Blue(1),
     //         Card::Pink(1),
@@ -71,7 +71,7 @@ fn main() {
     // ]));
     // let mut m = Player::new(
     //     [
-    //         Card::Trump(4),
+    //         Card::Submarine(4),
     //         Card::Yellow(6),
     //         Card::Blue(6),
     //         Card::Pink(2),
@@ -99,14 +99,14 @@ fn main() {
     //     (
     //         4,
     //         0,
-    //         [Card::Pink(7), Card::Pink(8), Card::Pink(9), Card::Trump(2)],
+    //         [Card::Pink(7), Card::Pink(8), Card::Pink(9), Card::Submarine(2)],
     //     )
     //         .into(),
     // )
     // .unwrap();
     // let mut f = Player::new(
     //     [
-    //         Card::Trump(3),
+    //         Card::Submarine(3),
     //         Card::Green(7),
     //         Card::Green(3),
     //         Card::Pink(4),
@@ -168,7 +168,7 @@ fn main() {
     //     .into(),
     // );
     // l.add_task(TaskDontWinCards::new_from_colors([
-    //     Card::Trump as fn(usize) -> Card
+    //     Card::Submarine as fn(usize) -> Card
     // ]));
     // let mut state = State::new([m, l, r, f]);
     // state.current_trick = (5, 0, []).into(); // You need to make it public to run this example

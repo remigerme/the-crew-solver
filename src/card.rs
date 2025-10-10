@@ -1,7 +1,13 @@
 pub const NB_CARDS: usize = 40;
 pub const COLORS: [fn(usize) -> Card; 4] = [Card::Pink, Card::Green, Card::Blue, Card::Yellow];
 pub const COLOR_RANGE: std::ops::Range<usize> = 1..10;
-pub const TRUMP_RANGE: std::ops::Range<usize> = 1..5;
+pub const SUBMARINE_RANGE: std::ops::Range<usize> = 1..5;
+
+pub const PINK: fn(usize) -> Card = Card::Pink;
+pub const GREEN: fn(usize) -> Card = Card::Green;
+pub const BLUE: fn(usize) -> Card = Card::Blue;
+pub const YELLOW: fn(usize) -> Card = Card::Yellow;
+pub const SUBMARINE: fn(usize) -> Card = Card::Submarine;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Card {
@@ -9,7 +15,7 @@ pub enum Card {
     Green(usize),
     Blue(usize),
     Yellow(usize),
-    Trump(usize),
+    Submarine(usize),
 }
 
 macro_rules! card_ctor_decl {
@@ -28,7 +34,7 @@ card_ctor_decl!(pink, Card::Pink);
 card_ctor_decl!(green, Card::Green);
 card_ctor_decl!(blue, Card::Blue);
 card_ctor_decl!(yellow, Card::Yellow);
-card_ctor_decl!(submarine, Card::Trump);
+card_ctor_decl!(submarine, Card::Submarine);
 
 impl Card {
     pub fn is_valid(&self) -> bool {
@@ -36,18 +42,22 @@ impl Card {
             Card::Pink(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) => {
                 COLOR_RANGE.contains(&x)
             }
-            Card::Trump(x) => TRUMP_RANGE.contains(&x),
+            Card::Submarine(x) => SUBMARINE_RANGE.contains(&x),
         }
     }
 
     pub fn val(&self) -> usize {
         match *self {
-            Card::Pink(x) | Card::Green(x) | Card::Blue(x) | Card::Yellow(x) | Card::Trump(x) => x,
+            Card::Pink(x)
+            | Card::Green(x)
+            | Card::Blue(x)
+            | Card::Yellow(x)
+            | Card::Submarine(x) => x,
         }
     }
 
-    pub fn is_trump(&self) -> bool {
-        matches!(self, Card::Trump(_))
+    pub fn is_submarine(&self) -> bool {
+        matches!(self, Card::Submarine(_))
     }
 
     pub fn same_color(&self, other: &Card) -> bool {
@@ -57,7 +67,7 @@ impl Card {
                 | (Card::Green(_), Card::Green(_))
                 | (Card::Blue(_), Card::Blue(_))
                 | (Card::Yellow(_), Card::Yellow(_))
-                | (Card::Trump(_), Card::Trump(_))
+                | (Card::Submarine(_), Card::Submarine(_))
         )
     }
 }
@@ -73,8 +83,8 @@ mod test {
                 assert!(variant(i).is_valid());
             }
         }
-        for i in TRUMP_RANGE {
-            assert!(Card::Trump(i).is_valid());
+        for i in SUBMARINE_RANGE {
+            assert!(Card::Submarine(i).is_valid());
         }
     }
 
@@ -86,7 +96,7 @@ mod test {
             }
         }
         for i in [0, 5, 6, 7, 8, 9, 10] {
-            assert!(!Card::Trump(i).is_valid());
+            assert!(!Card::Submarine(i).is_valid());
         }
     }
 
@@ -97,20 +107,20 @@ mod test {
                 assert_eq!(variant(i).val(), i);
             }
         }
-        for i in TRUMP_RANGE {
-            assert_eq!(Card::Trump(i).val(), i);
+        for i in SUBMARINE_RANGE {
+            assert_eq!(Card::Submarine(i).val(), i);
         }
     }
 
     #[test]
-    fn test_is_trump() {
+    fn test_is_submarine() {
         for i in COLOR_RANGE {
             for variant in COLORS {
-                assert!(!variant(i).is_trump());
+                assert!(!variant(i).is_submarine());
             }
         }
-        for i in TRUMP_RANGE {
-            assert!(Card::Trump(i).is_trump());
+        for i in SUBMARINE_RANGE {
+            assert!(Card::Submarine(i).is_submarine());
         }
     }
 
@@ -123,9 +133,9 @@ mod test {
                 }
             }
         }
-        for i in TRUMP_RANGE {
-            for j in TRUMP_RANGE {
-                assert!(Card::Trump(i).same_color(&Card::Trump(j)));
+        for i in SUBMARINE_RANGE {
+            for j in SUBMARINE_RANGE {
+                assert!(Card::Submarine(i).same_color(&Card::Submarine(j)));
             }
         }
     }
@@ -137,7 +147,7 @@ mod test {
             (10, Card::Green),
             (10, Card::Blue),
             (10, Card::Yellow),
-            (5, Card::Trump),
+            (5, Card::Submarine),
         ];
 
         for (i1, (b1, v1)) in variants.iter().enumerate() {

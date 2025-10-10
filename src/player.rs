@@ -86,8 +86,9 @@ impl Player {
     }
 
     pub fn is_captain(&self) -> bool {
-        let is_trump_4 = |&c| c == Card::Trump(4);
-        self.hand.iter().any(is_trump_4) || self.tricks.iter().any(|t| t.iter().any(is_trump_4))
+        let is_submarine_4 = |&c| c == Card::Submarine(4);
+        self.hand.iter().any(is_submarine_4)
+            || self.tricks.iter().any(|t| t.iter().any(is_submarine_4))
     }
 
     pub fn tasks_status(&self, ip: usize, state: &State) -> TaskStatus {
@@ -114,7 +115,7 @@ mod test {
 
     #[test]
     fn test_is_captain() {
-        let captain = Player::new(vec![Card::Green(1), Card::Trump(4)].into());
+        let captain = Player::new(vec![Card::Green(1), Card::Submarine(4)].into());
         assert!(captain.is_captain());
 
         let not_captain = Player::new(vec![Card::Yellow(4), Card::Green(1)].into());
