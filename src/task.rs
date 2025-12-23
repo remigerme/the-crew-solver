@@ -28,6 +28,7 @@ pub mod win_cards_amount_number;
 pub mod win_consecutive_tricks;
 pub mod win_nb_tricks;
 pub mod win_nb_tricks_compared_captain;
+pub mod win_specific_submarine;
 pub mod win_trick_with;
 pub mod win_trick_with_pred;
 pub mod win_tricks;

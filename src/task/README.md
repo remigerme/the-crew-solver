@@ -62,7 +62,7 @@ Thank you for your help!
 
 ## Checklist
 
-**Status: 82/96.**
+**Status: 89/96.**
 
 From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards):
 
@@ -166,12 +166,13 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (3/3/3) Win exactly two consecutive tricks.
 - Done in [`TaskDontWinConsecutiveTricks`]
   - [x] (3/2/2) Do not win two consecutive tricks.
+- Done in [`TaskWinSpecificSubmarine`]
+  - [x] (3/3/3) Win the 1 submarine and no other (deal new cards if someone has submarines no. 1 and 4 or 1,2,3 in hand)
+  - [x] (3/3/3) Win the 2 submarine and no other (deal new cards if someone has submarines no. 2 and 4 or 1,2,3 in hand)
 - [ ] (2/3/3) Win more tricks than everyone else
 - [ ] (3/4/5) Win more tricks than everyone else together
 - [ ] (2/2/3) Win fewer tricks than everyone else
 - [ ] (3/4/5) Win all cards of at least one colour (excluding submarines)
-- [ ] (3/3/3) Win the 1 submarine and no other (deal new cards if someone has submarines no. 1 and 4 or 1,2,3 in hand)
-- [ ] (3/3/3) Win the 2 submarine and no other (deal new cards if someone has submarines no. 2 and 4 or 1,2,3 in hand)
 - [ ] (4/4/4) Win the same amount of pink and yellow cards (more than 0)
 - [ ] (1/1/1) Win more yellow cards than blue cards (0 blue cards are allowed)
 - [ ] (1/1/1) Win more pink cards than green cards (0 green cards are allowed)
