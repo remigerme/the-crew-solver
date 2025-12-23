@@ -49,6 +49,26 @@ impl TaskWinCardsAmountColor {
         let constraints = HashMap::from([(Card::Blue as fn(usize) -> Card, 2)]);
         Self::new(true, constraints)
     }
+
+    pub fn new_at_least_one_each_color() -> Self {
+        let constraints = HashMap::from([
+            (Card::Pink as fn(usize) -> Card, 1),
+            (Card::Green, 1),
+            (Card::Blue, 1),
+            (Card::Yellow, 1),
+        ]);
+        Self::new(false, constraints)
+    }
+
+    pub fn new_exactly_2_submarines() -> Self {
+        let constraints = HashMap::from([(Card::Submarine as fn(usize) -> Card, 2)]);
+        Self::new(true, constraints)
+    }
+
+    pub fn new_exactly_3_submarines() -> Self {
+        let constraints = HashMap::from([(Card::Submarine as fn(usize) -> Card, 3)]);
+        Self::new(true, constraints)
+    }
 }
 
 fn count_won(tricks: &[Trick], color: fn(usize) -> Card) -> usize {
