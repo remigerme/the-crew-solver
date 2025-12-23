@@ -60,6 +60,11 @@ impl TaskWinCardsAmountColor {
         Self::new(false, constraints)
     }
 
+    pub fn new_exactly_1_submarine() -> Self {
+        let constraints = HashMap::from([(Card::Submarine as fn(usize) -> Card, 1)]);
+        Self::new(true, constraints)
+    }
+
     pub fn new_exactly_2_submarines() -> Self {
         let constraints = HashMap::from([(Card::Submarine as fn(usize) -> Card, 2)]);
         Self::new(true, constraints)
