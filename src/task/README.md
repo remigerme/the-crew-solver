@@ -62,7 +62,7 @@ Thank you for your help!
 
 ## Checklist
 
-**Status: 93/96.**
+**Status: 96/96.** Hurrah!
 
 From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards):
 
@@ -175,6 +175,7 @@ From [BGG forum](https://boardgamegeek.com/thread/2631311/all-the-mission-cards)
   - [x] (4/4/4) Win the same amount of pink and yellow cards (more than 0)
   - [x] (1/1/1) Win more yellow cards than blue cards (0 blue cards are allowed)
   - [x] (1/1/1) Win more pink cards than green cards (0 green cards are allowed)
-- [ ] (2/3/3) Win more tricks than everyone else
-- [ ] (3/4/5) Win more tricks than everyone else together
-- [ ] (2/2/3) Win fewer tricks than everyone else
+- Done in [`TaskWinMoreTricks`]
+  - [x] (2/3/3) Win more tricks than everyone else
+  - [x] (3/4/5) Win more tricks than everyone else together
+  - [x] (2/2/3) Win fewer tricks than everyone else
