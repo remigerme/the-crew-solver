@@ -22,6 +22,7 @@ pub mod dont_open_trick_with;
 pub mod dont_win_cards;
 pub mod dont_win_consecutive_tricks;
 pub mod dont_win_tricks;
+pub mod win_all_cards_color;
 pub mod win_cards;
 pub mod win_cards_amount_color;
 pub mod win_cards_amount_number;
