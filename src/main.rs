@@ -1,180 +1,64 @@
-use the_crew_solver::{
-    card::Card,
-    player::Player,
-    state::{GameError, State},
-    task::{
-        dont_open_trick_with::TaskDontOpenTrickWith, dont_win_cards::TaskDontWinCards,
-        win_cards::TaskWinCards,
-    },
-};
+use the_crew_solver::state::State;
+
+use clap::Parser;
+use std::fs::File;
+use std::io::Write;
+
+#[derive(Parser, Debug)]
+struct Args {
+    n_samples: usize,
+    n_players: usize,
+    diff_tasks_min: usize,
+    diff_tasks_max: usize,
+    #[arg(short, long)]
+    out: Option<String>,
+}
+
+fn assign_random_tasks(s: &mut State, diff_tasks: usize) {}
 
 fn main() {
-    // Minimal demo
-    let mut p1 = Player::new(vec![Card::Submarine(4), Card::Blue(2)].into());
-    let p2 = Player::new(vec![Card::Blue(1), Card::Pink(6)].into());
-
-    p1.add_task(TaskWinCards::new([Card::Blue(1), Card::Pink(6)]));
-
-    let mut s = State::new(vec![p1, p2]);
-    match s.play() {
-        Ok(solution) => println!("Found a solution: {:?}", solution),
-        Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
-        Err(e) => eprintln!("Error encountered: {}", e),
+    let args = Args::parse();
+    let n_samples = args.n_samples;
+    let n_players = args.n_players;
+    if n_players < 3 || 5 < n_players {
+        panic!(
+            "n_players should be between 3 and 5 (inclusive), got {}",
+            n_players
+        )
+    }
+    let diff_tasks_min = args.diff_tasks_min;
+    let diff_tasks_max = args.diff_tasks_max;
+    if diff_tasks_min > diff_tasks_max {
+        panic!(
+            "diff_tasks_min should be <= diff_tasks_max, got min={} and max={} instead",
+            diff_tasks_min, diff_tasks_max
+        )
     }
 
-    // Intermediate demo
-    let mut state = State::new_random(4);
-    state.get_mut_player(0).add_task(TaskWinCards::new([
-        Card::Blue(1),
-        Card::Pink(6),
-        Card::Green(9),
-        Card::Yellow(4),
-    ]));
-    state
-        .get_mut_player(1)
-        .add_task(TaskDontWinCards::new_from_colors([
-            Card::Blue as fn(usize) -> Card,
-            Card::Green,
-        ]));
-    state
-        .get_mut_player(2)
-        .add_task(TaskDontOpenTrickWith::new([
-            Card::Blue as fn(usize) -> Card,
-            Card::Pink,
-        ]));
-    state
-        .get_mut_player(3)
-        .add_task(TaskDontWinCards::new_from_values([5, 8]));
-    state
-        .get_mut_player(3)
-        .add_task(TaskDontWinCards::new([Card::Yellow(1), Card::Yellow(2)]));
-    match state.play() {
-        Ok(solution) => println!("Found a solution: {:?}", solution),
-        Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
-        Err(e) => eprintln!("Error encountered: {}", e),
+    let mut results = Vec::new();
+    for diff_task in diff_tasks_min..diff_tasks_max + 1 {
+        for _ in 0..n_samples {
+            let mut s = State::new_random(n_players);
+            assign_random_tasks(&mut s, diff_task);
+            let start = std::time::Instant::now();
+            let (n_done, n_failed, n_unknown) = s.play();
+            results.push((n_done, n_failed, n_unknown, start.elapsed()));
+        }
     }
 
-    // First real-world usecase
-    // let mut r = Player::new(
-    //     [
-    //         Card::Submarine(1),
-    //         Card::Blue(8),
-    //         Card::Blue(1),
-    //         Card::Pink(1),
-    //         Card::Yellow(8),
-    //     ]
-    //     .into(),
-    // );
-    // r.add_task(TaskDontOpenTrickWith::new([
-    //     Card::Green as fn(usize) -> Card,
-    //     Card::Pink,
-    // ]));
-    // let mut m = Player::new(
-    //     [
-    //         Card::Submarine(4),
-    //         Card::Yellow(6),
-    //         Card::Blue(6),
-    //         Card::Pink(2),
-    //         Card::Pink(5),
-    //     ]
-    //     .into(),
-    // );
-    // m.add_task(TaskWinTrickWithPred::new_odd());
-    // m.add_task(TaskWinCardsAmountColor::new_at_least_5_pink());
-    // m.add_trick(
-    //     (
-    //         3,
-    //         0,
-    //         [
-    //             Card::Green(9),
-    //             Card::Green(1),
-    //             Card::Green(8),
-    //             Card::Green(6),
-    //         ],
-    //     )
-    //         .into(),
-    // )
-    // .unwrap();
-    // m.add_trick(
-    //     (
-    //         4,
-    //         0,
-    //         [Card::Pink(7), Card::Pink(8), Card::Pink(9), Card::Submarine(2)],
-    //     )
-    //         .into(),
-    // )
-    // .unwrap();
-    // let mut f = Player::new(
-    //     [
-    //         Card::Submarine(3),
-    //         Card::Green(7),
-    //         Card::Green(3),
-    //         Card::Pink(4),
-    //         Card::Pink(6),
-    //     ]
-    //     .into(),
-    // );
-    // f.add_task(TaskWinCards::new([
-    //     Card::Blue(3),
-    //     Card::Pink(3),
-    //     Card::Green(3),
-    //     Card::Yellow(3),
-    // ]));
-    // f.add_trick(
-    //     (
-    //         0,
-    //         0,
-    //         [
-    //             Card::Yellow(1),
-    //             Card::Yellow(4),
-    //             Card::Yellow(7),
-    //             Card::Pink(3),
-    //         ],
-    //     )
-    //         .into(),
-    // )
-    // .unwrap();
-    // f.add_trick(
-    //     (
-    //         1,
-    //         0,
-    //         [
-    //             Card::Yellow(9),
-    //             Card::Yellow(2),
-    //             Card::Yellow(5),
-    //             Card::Yellow(3),
-    //         ],
-    //     )
-    //         .into(),
-    // )
-    // .unwrap();
-    // f.add_trick(
-    //     (
-    //         2,
-    //         0,
-    //         [Card::Blue(4), Card::Blue(2), Card::Blue(3), Card::Blue(7)],
-    //     )
-    //         .into(),
-    // )
-    // .unwrap();
-    // let mut l = Player::new(
-    //     [
-    //         Card::Blue(9),
-    //         Card::Blue(5),
-    //         Card::Green(5),
-    //         Card::Green(4),
-    //         Card::Green(2),
-    //     ]
-    //     .into(),
-    // );
-    // l.add_task(TaskDontWinCards::new_from_colors([
-    //     Card::Submarine as fn(usize) -> Card
-    // ]));
-    // let mut state = State::new([m, l, r, f]);
-    // state.current_trick = (5, 0, []).into(); // You need to make it public to run this example
-    // match state.play() {
-    //     Ok(solution) => println!("Found a solution: {:?}", solution),
-    //     Err(GameError::NoSolutionFound) => println!("Unfortunately this game is not feasible"),
-    //     Err(e) => eprintln!("Error encountered: {}", e),
-    // }
+    // Exporting to CSV
+    let mut output: Box<dyn Write> = match &args.out {
+        Some(path) => Box::new(File::create(path).expect("Failed to create output file")),
+        None => Box::new(std::io::stdout()),
+    };
+
+    writeln!(output, "n_done,n_failed,n_unknown,duration").unwrap();
+    for (n_done, n_failed, n_unknown, d) in results {
+        writeln!(
+            output,
+            "{},{},{},{}",
+            n_done, n_failed, n_unknown, d.as_secs_f32()
+        )
+        .unwrap();
+    }
 }
