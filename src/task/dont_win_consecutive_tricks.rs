@@ -1,15 +1,15 @@
 use crate::task::{Task, TaskStatus};
 
 #[derive(Debug)]
-pub struct TaskWinNoConsecutiveTricks {}
+pub struct TaskDontWinConsecutiveTricks {}
 
-impl TaskWinNoConsecutiveTricks {
+impl TaskDontWinConsecutiveTricks {
     pub fn new() -> Self {
         Self {}
     }
 }
 
-impl Task for TaskWinNoConsecutiveTricks {
+impl Task for TaskDontWinConsecutiveTricks {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let mut prev_trick = None;
         for trick in state.get_player(ip).get_tricks() {
