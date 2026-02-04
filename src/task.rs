@@ -210,7 +210,36 @@ decl_win_nb_tricks_compared_captain!(win_same_nb_tricks_that_captain, std::cmp::
 decl_win_nb_tricks_compared_captain!(win_less_tricks_than_captain, std::cmp::Ordering::Less);
 
 use win_trick_with_pred::TaskWinTrickWithPred;
-// TODO
+pub fn win_trick_with_all_cards_lower_than_7() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_lower(7)
+}
+pub fn win_trick_with_all_cards_greater_than_5() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_greater(5)
+}
+pub fn win_trick_with_only_even_numbers() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_even()
+}
+pub fn win_trick_with_only_odd_numbers() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_odd()
+}
+pub fn win_trick_with_total_value_22_or_23() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_total_in([22, 23])
+}
+pub fn win_trick_with_same_amount_green_and_yellow() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_same_nb_of_colors(green, yellow)
+}
+pub fn win_trick_with_same_amount_pink_and_blue() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_same_nb_of_colors(pink, blue)
+}
+pub fn win_pink_7_with_submarine() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_win_card_with_submarine(pink(7))
+}
+pub fn win_green_9_with_submarine() -> TaskWinTrickWithPred {
+    TaskWinTrickWithPred::new_win_card_with_submarine(green(9))
+}
+// TODO LOWER
+// TODO GREATER
+// TODO GREEN 2 LAST TRICK
 
 decl_dont_win_first_tricks!(dont_win_first_three_tricks, 3);
 decl_dont_win_first_tricks!(dont_win_first_four_tricks, 4);
