@@ -16,18 +16,6 @@ impl TaskWinMoreTricks {
             fewer,
         }
     }
-
-    pub fn new_win_more_tricks_than_everyone_else() -> Self {
-        Self::new(false, false)
-    }
-
-    pub fn new_win_more_tricks_than_everyone_else_together() -> Self {
-        Self::new(true, false)
-    }
-
-    pub fn new_win_fewer_tricks_than_everyone_else() -> Self {
-        Self::new(false, true)
-    }
 }
 
 impl Task for TaskWinMoreTricks {

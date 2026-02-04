@@ -19,18 +19,6 @@ impl TaskWinMoreCardsColor {
             equal,
         }
     }
-
-    pub fn new_same_amount_pink_and_yellow() -> Self {
-        Self::new(Card::Pink, Card::Yellow, true)
-    }
-
-    pub fn new_more_yellow_than_blue() -> Self {
-        Self::new(Card::Yellow, Card::Blue, false)
-    }
-
-    pub fn new_more_pink_than_green() -> Self {
-        Self::new(Card::Pink, Card::Green, false)
-    }
 }
 
 fn count_won(tricks: &[Trick], color: fn(usize) -> Card) -> usize {

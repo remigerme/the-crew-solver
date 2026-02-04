@@ -13,22 +13,6 @@ impl TaskWinConsecutiveTricks {
     pub fn new(amount: usize, exactly: bool) -> Self {
         Self { amount, exactly }
     }
-
-    pub fn new_two_consecutive_tricks() -> Self {
-        Self::new(2, false)
-    }
-
-    pub fn new_exactly_two_consecutive_tricks() -> Self {
-        Self::new(2, true)
-    }
-
-    pub fn new_three_consecutive_tricks() -> Self {
-        Self::new(3, false)
-    }
-
-    pub fn new_exactly_three_consecutive_tricks() -> Self {
-        Self::new(3, true)
-    }
 }
 
 /// Returns (`gap`, `biggest_streak`, `current_streak`).
