@@ -9,14 +9,6 @@ impl TaskWinSpecificSubmarine {
     pub fn new(value: usize) -> Self {
         Self { value }
     }
-
-    pub fn new_win_only_1() -> Self {
-        Self { value: 1 }
-    }
-
-    pub fn new_win_only_2() -> Self {
-        Self { value: 2 }
-    }
 }
 
 impl Task for TaskWinSpecificSubmarine {

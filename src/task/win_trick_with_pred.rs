@@ -93,7 +93,7 @@ impl TaskWinTrickWithPred {
         }
     }
 
-    pub fn new_win_card_with_trump(card: Card) -> Self {
+    pub fn new_win_card_with_submarine(card: Card) -> Self {
         assert!(card.is_valid());
         Self {
             name: format!("win card {:?} with a submarine", card),

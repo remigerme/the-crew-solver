@@ -21,36 +21,14 @@ fn count_won_except_submarine(tricks: &[Trick], value: usize) -> usize {
 }
 
 impl TaskWinCardsAmountNumber {
-    pub fn new(exactly: bool, constraints: HashMap<usize, usize>) -> Self {
+    pub fn new<I>(exactly: bool, constraints: I) -> Self
+    where
+        I: IntoIterator<Item = (usize, usize)>,
+    {
         Self {
             exactly,
-            constraints,
+            constraints: constraints.into_iter().collect(),
         }
-    }
-
-    pub fn new_at_least_three_5s() -> Self {
-        let constraints = HashMap::from([(5, 3)]);
-        Self::new(false, constraints)
-    }
-
-    pub fn new_at_least_three_9s() -> Self {
-        let constraints = HashMap::from([(9, 3)]);
-        Self::new(false, constraints)
-    }
-
-    pub fn new_at_least_two_7s() -> Self {
-        let constraints = HashMap::from([(7, 2)]);
-        Self::new(false, constraints)
-    }
-
-    pub fn new_exactly_three_6s() -> Self {
-        let constraints = HashMap::from([(6, 3)]);
-        Self::new(true, constraints)
-    }
-
-    pub fn new_exactly_two_9s() -> Self {
-        let constraints = HashMap::from([(9, 2)]);
-        Self::new(true, constraints)
     }
 }
 

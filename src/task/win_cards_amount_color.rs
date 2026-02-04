@@ -13,66 +13,14 @@ pub struct TaskWinCardsAmountColor {
 }
 
 impl TaskWinCardsAmountColor {
-    pub fn new(exactly: bool, constraints: HashMap<fn(usize) -> Card, usize>) -> Self {
+    pub fn new<I>(exactly: bool, constraints: I) -> Self
+    where
+        I: IntoIterator<Item = (fn(usize) -> Card, usize)>,
+    {
         Self {
             exactly,
-            constraints,
+            constraints: constraints.into_iter().collect(),
         }
-    }
-
-    pub fn new_exactly_1_pink_1_green() -> Self {
-        let constraints = HashMap::from([(Card::Pink as fn(usize) -> Card, 1), (Card::Green, 1)]);
-        Self::new(true, constraints)
-    }
-
-    pub fn new_at_least_7_yellow() -> Self {
-        let constraints = HashMap::from([(Card::Yellow as fn(usize) -> Card, 7)]);
-        Self::new(false, constraints)
-    }
-
-    pub fn new_at_least_5_pink() -> Self {
-        let constraints = HashMap::from([(Card::Pink as fn(usize) -> Card, 5)]);
-        Self::new(false, constraints)
-    }
-
-    pub fn new_exactly_1_pink() -> Self {
-        let constraints = HashMap::from([(Card::Pink as fn(usize) -> Card, 1)]);
-        Self::new(true, constraints)
-    }
-
-    pub fn new_exactly_2_green() -> Self {
-        let constraints = HashMap::from([(Card::Green as fn(usize) -> Card, 2)]);
-        Self::new(true, constraints)
-    }
-
-    pub fn new_exactly_2_blue() -> Self {
-        let constraints = HashMap::from([(Card::Blue as fn(usize) -> Card, 2)]);
-        Self::new(true, constraints)
-    }
-
-    pub fn new_at_least_one_each_color() -> Self {
-        let constraints = HashMap::from([
-            (Card::Pink as fn(usize) -> Card, 1),
-            (Card::Green, 1),
-            (Card::Blue, 1),
-            (Card::Yellow, 1),
-        ]);
-        Self::new(false, constraints)
-    }
-
-    pub fn new_exactly_1_submarine() -> Self {
-        let constraints = HashMap::from([(Card::Submarine as fn(usize) -> Card, 1)]);
-        Self::new(true, constraints)
-    }
-
-    pub fn new_exactly_2_submarines() -> Self {
-        let constraints = HashMap::from([(Card::Submarine as fn(usize) -> Card, 2)]);
-        Self::new(true, constraints)
-    }
-
-    pub fn new_exactly_3_submarines() -> Self {
-        let constraints = HashMap::from([(Card::Submarine as fn(usize) -> Card, 3)]);
-        Self::new(true, constraints)
     }
 }
 
