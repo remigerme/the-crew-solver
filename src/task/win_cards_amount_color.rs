@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::{
-    card::{COLOR_RANGE, COLORS, Card},
+    card::{COLOR_RANGE, Card},
     task::{BaseTask, TaskDifficulty, TaskStatus},
     trick::Trick,
 };
@@ -36,7 +36,6 @@ impl BaseTask for TaskWinCardsAmountColor {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let mut done = true;
         for (&color, &v) in &self.constraints {
-            assert!(COLORS.contains(&color));
             let won_by_ip = count_won(state.get_player(ip).get_tricks(), color);
 
             if self.exactly && won_by_ip > v {
