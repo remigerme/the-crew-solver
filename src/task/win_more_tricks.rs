@@ -1,24 +1,30 @@
-use crate::task::{Task, TaskStatus};
+use crate::task::{BaseTask, TaskDifficulty, TaskStatus};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinMoreTricks {
+    difficulty: Option<TaskDifficulty>,
     everyone_else_together: bool,
     fewer: bool,
 }
 
 impl TaskWinMoreTricks {
-    pub fn new(everyone_else_together: bool, fewer: bool) -> Self {
+    pub fn new(
+        difficulty: Option<TaskDifficulty>,
+        everyone_else_together: bool,
+        fewer: bool,
+    ) -> Self {
         // The following configuration does not exist in the game.
         // We rely on this for the implementation of [`eval`].
         assert!(!(everyone_else_together && fewer));
         Self {
+            difficulty,
             everyone_else_together,
             fewer,
         }
     }
 }
 
-impl Task for TaskWinMoreTricks {
+impl BaseTask for TaskWinMoreTricks {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let n_tricks_left = state.n_tricks_left();
         let n_tricks_won = state.get_player(ip).get_tricks().len();
@@ -70,4 +76,6 @@ impl Task for TaskWinMoreTricks {
             TaskStatus::Unknown
         }
     }
+
+    impl_get_difficulty!();
 }

@@ -1,10 +1,10 @@
-use std::{ops::Deref, rc::Rc};
+use std::ops::Deref;
 
 use crate::{
     card::Card,
     hand::Hand,
     state::{GameError, State},
-    task::{Task, TaskStatus},
+    task::{BaseTask, Task, TaskStatus},
     trick::Trick,
 };
 
@@ -36,7 +36,7 @@ pub fn n_tricks_total(n_players: usize) -> usize {
 pub struct Player {
     hand: Hand,
     tricks: Vec<Trick>,
-    tasks: Vec<Rc<dyn Task>>,
+    tasks: Vec<Task>,
 }
 
 impl Player {
@@ -81,8 +81,11 @@ impl Player {
         Ok(())
     }
 
-    pub fn add_task<T: Task + 'static>(&mut self, task: T) {
-        self.tasks.push(Rc::new(task));
+    pub fn add_task<T>(&mut self, task: T)
+    where
+        T: Into<Task>,
+    {
+        self.tasks.push(task.into());
     }
 
     pub fn is_captain(&self) -> bool {

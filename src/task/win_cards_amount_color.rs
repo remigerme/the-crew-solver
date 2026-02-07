@@ -1,23 +1,25 @@
 use std::collections::HashMap;
 
 use crate::{
-    card::{COLOR_RANGE, COLORS, Card},
-    task::{Task, TaskStatus},
+    card::{COLOR_RANGE, Card},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
     trick::Trick,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinCardsAmountColor {
+    difficulty: Option<TaskDifficulty>,
     constraints: HashMap<fn(usize) -> Card, usize>,
     exactly: bool,
 }
 
 impl TaskWinCardsAmountColor {
-    pub fn new<I>(exactly: bool, constraints: I) -> Self
+    pub fn new<I>(difficulty: Option<TaskDifficulty>, exactly: bool, constraints: I) -> Self
     where
         I: IntoIterator<Item = (fn(usize) -> Card, usize)>,
     {
         Self {
+            difficulty,
             exactly,
             constraints: constraints.into_iter().collect(),
         }
@@ -30,11 +32,10 @@ fn count_won(tricks: &[Trick], color: fn(usize) -> Card) -> usize {
     })
 }
 
-impl Task for TaskWinCardsAmountColor {
+impl BaseTask for TaskWinCardsAmountColor {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let mut done = true;
         for (&color, &v) in &self.constraints {
-            assert!(COLORS.contains(&color));
             let won_by_ip = count_won(state.get_player(ip).get_tricks(), color);
 
             if self.exactly && won_by_ip > v {
@@ -65,4 +66,6 @@ impl Task for TaskWinCardsAmountColor {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

@@ -2,18 +2,19 @@ use std::collections::HashSet;
 
 use crate::{
     player::n_tricks_total,
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinTricks {
+    difficulty: Option<TaskDifficulty>,
     indexes: HashSet<usize>,
     last: bool,
     strict: bool,
 }
 
 impl TaskWinTricks {
-    pub fn new<I>(indexes: I, last: bool, strict: bool) -> Self
+    pub fn new<I>(difficulty: Option<TaskDifficulty>, indexes: I, last: bool, strict: bool) -> Self
     where
         I: IntoIterator<Item = usize>,
     {
@@ -23,6 +24,7 @@ impl TaskWinTricks {
             "at least one required index should be provided"
         );
         Self {
+            difficulty,
             indexes,
             last,
             strict,
@@ -30,7 +32,7 @@ impl TaskWinTricks {
     }
 }
 
-impl Task for TaskWinTricks {
+impl BaseTask for TaskWinTricks {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let mut indexes = self.indexes.clone();
         if self.last {
@@ -63,4 +65,6 @@ impl Task for TaskWinTricks {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

@@ -1,17 +1,18 @@
-use crate::task::{Task, TaskStatus};
+use crate::task::{BaseTask, TaskDifficulty, TaskStatus};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinNbTricks {
+    difficulty: Option<TaskDifficulty>,
     n: usize,
 }
 
 impl TaskWinNbTricks {
-    pub fn new(n: usize) -> Self {
-        Self { n }
+    pub fn new(difficulty: Option<TaskDifficulty>, n: usize) -> Self {
+        Self { difficulty, n }
     }
 }
 
-impl Task for TaskWinNbTricks {
+impl BaseTask for TaskWinNbTricks {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let n_tricks = state.get_player(ip).get_tricks().len();
 
@@ -31,4 +32,6 @@ impl Task for TaskWinNbTricks {
             }
         }
     }
+
+    impl_get_difficulty!();
 }

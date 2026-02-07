@@ -2,17 +2,18 @@ use std::cmp::Ordering;
 
 use crate::{
     state::State,
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinNbTricksComparedCaptain {
+    difficulty: Option<TaskDifficulty>,
     comp: Ordering,
 }
 
 impl TaskWinNbTricksComparedCaptain {
-    pub fn new(comp: Ordering) -> Self {
-        TaskWinNbTricksComparedCaptain { comp }
+    pub fn new(difficulty: Option<TaskDifficulty>, comp: Ordering) -> Self {
+        TaskWinNbTricksComparedCaptain { difficulty, comp }
     }
 
     fn can_have_more_tricks(state: &State, i1: usize, i2: usize, strict: bool) -> bool {
@@ -24,7 +25,7 @@ impl TaskWinNbTricksComparedCaptain {
     }
 }
 
-impl Task for TaskWinNbTricksComparedCaptain {
+impl BaseTask for TaskWinNbTricksComparedCaptain {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let i_captain = State::retrieve_captain(state.get_players()).unwrap();
         assert_ne!(ip, i_captain, "This task cannot be given to the captain.");
@@ -68,4 +69,6 @@ impl Task for TaskWinNbTricksComparedCaptain {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

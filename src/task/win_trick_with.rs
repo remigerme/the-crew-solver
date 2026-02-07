@@ -1,22 +1,31 @@
 use crate::{
     card::Card,
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
     trick::Trick,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinTrickWith {
+    difficulty: Option<TaskDifficulty>,
     win_with: usize,
     must_win: Option<usize>,
 }
 
 impl TaskWinTrickWith {
-    pub fn new(win_with: usize, must_win: Option<usize>) -> Self {
-        TaskWinTrickWith { win_with, must_win }
+    pub fn new(
+        difficulty: Option<TaskDifficulty>,
+        win_with: usize,
+        must_win: Option<usize>,
+    ) -> Self {
+        TaskWinTrickWith {
+            difficulty,
+            win_with,
+            must_win,
+        }
     }
 }
 
-impl Task for TaskWinTrickWith {
+impl BaseTask for TaskWinTrickWith {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         // Checking if a trick already satisfies the task
         let n_players = state.n_players();
@@ -70,4 +79,6 @@ impl Task for TaskWinTrickWith {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

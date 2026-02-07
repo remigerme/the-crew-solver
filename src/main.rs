@@ -57,7 +57,10 @@ fn main() {
         writeln!(
             output,
             "{},{},{},{}",
-            n_done, n_failed, n_unknown, d.as_secs_f32()
+            n_done,
+            n_failed,
+            n_unknown,
+            d.as_secs_f32()
         )
         .unwrap();
     }

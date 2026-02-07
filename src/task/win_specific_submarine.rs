@@ -1,17 +1,18 @@
-use crate::task::{Task, TaskStatus};
+use crate::task::{BaseTask, TaskDifficulty, TaskStatus};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinSpecificSubmarine {
+    difficulty: Option<TaskDifficulty>,
     value: usize,
 }
 
 impl TaskWinSpecificSubmarine {
-    pub fn new(value: usize) -> Self {
-        Self { value }
+    pub fn new(difficulty: Option<TaskDifficulty>, value: usize) -> Self {
+        Self { difficulty, value }
     }
 }
 
-impl Task for TaskWinSpecificSubmarine {
+impl BaseTask for TaskWinSpecificSubmarine {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let player = state.get_player(ip);
 
@@ -77,4 +78,6 @@ impl Task for TaskWinSpecificSubmarine {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

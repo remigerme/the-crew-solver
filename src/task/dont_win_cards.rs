@@ -2,25 +2,27 @@ use std::collections::HashSet;
 
 use crate::{
     card::{COLOR_RANGE, COLORS, Card},
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskDontWinCards {
+    difficulty: Option<TaskDifficulty>,
     cards: HashSet<Card>,
 }
 
 impl TaskDontWinCards {
-    pub fn new<I>(cards: I) -> Self
+    pub fn new<I>(difficulty: Option<TaskDifficulty>, cards: I) -> Self
     where
         I: IntoIterator<Item = Card>,
     {
         TaskDontWinCards {
+            difficulty,
             cards: cards.into_iter().collect(),
         }
     }
 
-    pub fn new_from_colors<I>(colors: I) -> Self
+    pub fn new_from_colors<I>(difficulty: Option<TaskDifficulty>, colors: I) -> Self
     where
         I: IntoIterator<Item = fn(usize) -> Card>,
     {
@@ -31,10 +33,10 @@ impl TaskDontWinCards {
             }
         }
 
-        TaskDontWinCards { cards }
+        TaskDontWinCards { difficulty, cards }
     }
 
-    pub fn new_from_values<I>(values: I) -> Self
+    pub fn new_from_values<I>(difficulty: Option<TaskDifficulty>, values: I) -> Self
     where
         I: IntoIterator<Item = usize>,
     {
@@ -45,11 +47,11 @@ impl TaskDontWinCards {
             }
         }
 
-        TaskDontWinCards { cards }
+        TaskDontWinCards { difficulty, cards }
     }
 }
 
-impl Task for TaskDontWinCards {
+impl BaseTask for TaskDontWinCards {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         // Checking if the player has won one of the cards - in that case the task is failed
         let player = state.get_player(ip);
@@ -80,6 +82,8 @@ impl Task for TaskDontWinCards {
             TaskStatus::Unknown
         }
     }
+
+    impl_get_difficulty!();
 }
 
 #[cfg(test)]
@@ -90,10 +94,10 @@ mod test {
 
     #[test]
     fn done_blue_3_tricks() {
-        let task = TaskDontWinCards::new_from_colors([Card::Blue as fn(usize) -> Card]);
+        let task = TaskDontWinCards::new_from_colors(None, [Card::Blue as fn(usize) -> Card]);
         let p1 = Player::new([Card::Submarine(4)].into());
         let mut p2 = Player::new([Card::Green(4)].into());
-        p2.add_task(task);
+        p2.add_task(task.clone());
         let mut p3 = Player::new([Card::Pink(8)].into());
         p3.add_trick((0, 0, [Card::Blue(7), Card::Blue(8), Card::Blue(9)]).into())
             .unwrap();
@@ -103,34 +107,28 @@ mod test {
             .unwrap();
         let state = State::new([p1, p2, p3]);
 
-        assert_eq!(
-            TaskDontWinCards::new_from_colors([Card::Blue as fn(usize) -> Card]).eval(&state, 1),
-            TaskStatus::Done
-        )
+        assert_eq!(task.eval(&state, 1), TaskStatus::Done)
     }
 
     #[test]
     fn failed_5s_1_trick() {
-        let task = TaskDontWinCards::new_from_values([5]);
+        let task = TaskDontWinCards::new_from_values(None, [5]);
         let p1 = Player::new([].into());
         let mut p2 = Player::new([].into());
         p2.add_trick((0, 1, [Card::Submarine(4), Card::Pink(5)]).into())
             .unwrap();
-        p2.add_task(task);
+        p2.add_task(task.clone());
         let state = State::new([p1, p2]);
 
-        assert_eq!(
-            TaskDontWinCards::new_from_values([5]).eval(&state, 1),
-            TaskStatus::Failed
-        );
+        assert_eq!(task.eval(&state, 1), TaskStatus::Failed);
     }
 
     #[test]
     fn unknown_green_pink_2_tricks() {
         let task =
-            TaskDontWinCards::new_from_colors([Card::Green as fn(usize) -> Card, Card::Pink]);
+            TaskDontWinCards::new_from_colors(None, [Card::Green as fn(usize) -> Card, Card::Pink]);
         let mut p1 = Player::new([Card::Pink(2)].into());
-        p1.add_task(task);
+        p1.add_task(task.clone());
         let mut p2 = Player::new([Card::Yellow(6)].into());
         p2.add_trick((0, 1, [Card::Submarine(4), Card::Green(5)]).into())
             .unwrap();
@@ -138,10 +136,6 @@ mod test {
             .unwrap();
         let state = State::new([p1, p2]);
 
-        assert_eq!(
-            TaskDontWinCards::new_from_colors([Card::Green as fn(usize) -> Card, Card::Pink])
-                .eval(&state, 0),
-            TaskStatus::Unknown
-        );
+        assert_eq!(task.eval(&state, 0), TaskStatus::Unknown);
     }
 }
