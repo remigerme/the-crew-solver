@@ -76,7 +76,7 @@ impl BaseTask for TaskWinCards {
         super::TaskStatus::Unknown
     }
 
-    impl_get_difficulty!();
+    impl_difficulty!();
 }
 
 /// You can also provide some tests to check the implementation is working as expected.

@@ -157,5 +157,5 @@ impl BaseTask for TaskWinTrickWithPred {
         TaskStatus::Unknown
     }
 
-    impl_get_difficulty!();
+    impl_difficulty!();
 }

@@ -77,5 +77,5 @@ impl BaseTask for TaskWinMoreTricks {
         }
     }
 
-    impl_get_difficulty!();
+    impl_difficulty!();
 }

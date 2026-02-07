@@ -33,5 +33,5 @@ impl BaseTask for TaskWinNbTricks {
         }
     }
 
-    impl_get_difficulty!();
+    impl_difficulty!();
 }

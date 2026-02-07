@@ -77,5 +77,5 @@ impl BaseTask for TaskWinMoreCardsColor {
         TaskStatus::Unknown
     }
 
-    impl_get_difficulty!();
+    impl_difficulty!();
 }

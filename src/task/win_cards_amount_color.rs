@@ -67,5 +67,5 @@ impl BaseTask for TaskWinCardsAmountColor {
         TaskStatus::Unknown
     }
 
-    impl_get_difficulty!();
+    impl_difficulty!();
 }
