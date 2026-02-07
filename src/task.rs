@@ -20,7 +20,18 @@ pub struct TaskDifficulty(usize, usize, usize);
 #[enum_dispatch]
 pub trait BaseTask: Debug + Clone {
     fn eval(&self, state: &State, ip: usize) -> TaskStatus;
-    fn get_difficulty(&self) -> Option<TaskDifficulty>;
+
+    fn difficulty(&self) -> Option<TaskDifficulty>;
+
+    fn get_difficulty(&self, n_players: usize) -> Option<usize> {
+        assert!(3 <= n_players && n_players <= 5);
+        self.difficulty().map(|d| match n_players {
+            3 => d.0,
+            4 => d.1,
+            5 => d.2,
+            _ => panic!("invalid n_players"),
+        })
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -48,9 +59,9 @@ pub enum Task {
 /// All tasks should have a field [`difficulty`] and the implementation of [`Task::get_difficulty`]
 /// is straightforward using the following macro - but we need a macro cause we have no way to
 /// know that a field difficulty will be available.
-macro_rules! impl_get_difficulty {
+macro_rules! impl_difficulty {
     () => {
-        fn get_difficulty(&self) -> Option<crate::task::TaskDifficulty> {
+        fn difficulty(&self) -> Option<crate::task::TaskDifficulty> {
             self.difficulty
         }
     };

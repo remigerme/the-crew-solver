@@ -30,5 +30,5 @@ impl BaseTask for TaskDontWinConsecutiveTricks {
         TaskStatus::Unknown
     }
 
-    impl_get_difficulty!();
+    impl_difficulty!();
 }
