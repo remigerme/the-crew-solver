@@ -1,8 +1,9 @@
-use the_crew_solver::state::State;
-
 use clap::Parser;
+use rand::seq::SliceRandom;
 use std::fs::File;
 use std::io::Write;
+use the_crew_solver::state::State;
+use the_crew_solver::task::{BaseTask, Task};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -14,7 +15,31 @@ struct Args {
     out: Option<String>,
 }
 
-fn assign_random_tasks(s: &mut State, diff_tasks: usize) {}
+fn extract_first_valid(tasks: &Vec<Task>, diff_max: usize, n_players: usize) -> Option<Task> {
+    for task in tasks {
+        if task.get_difficulty(n_players).unwrap() <= diff_max {
+            return Some(task.clone());
+        }
+    }
+    None
+}
+
+fn assign_random_tasks(s: &mut State, diff_tasks: usize) {
+    let mut rng = rand::rng();
+    let n_players = s.n_players();
+    let mut ip = 0;
+    let mut total_difficulty = 0;
+    let mut tasks = Vec::new();
+
+    while total_difficulty < diff_tasks
+        && let Some(task) = extract_first_valid(&tasks, diff_tasks - total_difficulty, n_players)
+    {
+        total_difficulty += task.get_difficulty(n_players).unwrap();
+        s.get_mut_player(ip).add_task(task);
+        ip = (ip + 1) % n_players;
+        tasks.shuffle(&mut rng);
+    }
+}
 
 fn main() {
     let args = Args::parse();
