@@ -4,15 +4,20 @@
 //! This also serves as an example implementation to refer to when creating a new task.
 use std::collections::HashSet;
 
-use crate::{card::Card, task::Task};
+use crate::{
+    card::Card,
+    task::{BaseTask, TaskDifficulty},
+};
 
 /// First, we define a **public** struct, deriving [`Debug`].
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinCards {
     /// All fields should be private (ie without a `pub` specifier).
     /// They are used to store the internal logic of the task.
     ///
-    /// Here, we just store the cards that must be won by the player.
+    /// Here, we just store the cards that must be won by the player
+    /// (and the difficulty field which should be present on all tasks).
+    difficulty: Option<TaskDifficulty>,
     cards: HashSet<Card>,
 }
 
@@ -20,11 +25,12 @@ impl TaskWinCards {
     /// We provide a `new` method to construct the task.
     ///
     /// It should be as generic as possible, as we really don't care about the internal logic.
-    pub fn new<I>(cards: I) -> Self
+    pub fn new<I>(difficulty: Option<TaskDifficulty>, cards: I) -> Self
     where
         I: IntoIterator<Item = Card>,
     {
         TaskWinCards {
+            difficulty,
             cards: cards.into_iter().collect(),
         }
     }
@@ -33,7 +39,7 @@ impl TaskWinCards {
 }
 
 /// It is required to implement the [`Task`] trait.
-impl Task for TaskWinCards {
+impl BaseTask for TaskWinCards {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         // Checking if the player has won all cards - in that case task is done
         let player = state.get_player(ip);
@@ -69,6 +75,8 @@ impl Task for TaskWinCards {
 
         super::TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }
 
 /// You can also provide some tests to check the implementation is working as expected.
@@ -81,26 +89,23 @@ mod test {
 
     #[test]
     fn done_2_cards_1_trick() {
-        let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
+        let task = TaskWinCards::new(None, [Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![Card::Submarine(4)].into());
-        p1.add_task(task);
+        p1.add_task(task.clone());
         p1.add_trick((0, 0, vec![Card::Blue(1), Card::Blue(2)]).into())
             .unwrap();
 
         let p2 = Player::new(vec![Card::Submarine(1)].into());
         let state = State::new(vec![p1, p2]);
 
-        assert_eq!(
-            TaskWinCards::new([Card::Blue(1), Card::Blue(2)]).eval(&state, 0),
-            TaskStatus::Done
-        );
+        assert_eq!(task.eval(&state, 0), TaskStatus::Done);
     }
 
     #[test]
     fn done_2_cards_2_tricks() {
-        let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
+        let task = TaskWinCards::new(None, [Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![].into());
-        p1.add_task(task);
+        p1.add_task(task.clone());
         p1.add_trick((0, 0, vec![Card::Submarine(4), Card::Blue(1)]).into())
             .unwrap();
         p1.add_trick((1, 0, vec![Card::Blue(2), Card::Pink(8)]).into())
@@ -109,17 +114,14 @@ mod test {
         let p2 = Player::new(vec![].into());
         let state = State::new(vec![p1, p2]);
 
-        assert_eq!(
-            TaskWinCards::new([Card::Blue(1), Card::Blue(2)]).eval(&state, 0),
-            TaskStatus::Done
-        );
+        assert_eq!(task.eval(&state, 0), TaskStatus::Done);
     }
 
     #[test]
     fn failed_2_cards_2_tricks() {
-        let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
+        let task = TaskWinCards::new(None, [Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![].into());
-        p1.add_task(task);
+        p1.add_task(task.clone());
         p1.add_trick((0, 0, vec![Card::Submarine(4), Card::Blue(1)]).into())
             .unwrap();
 
@@ -128,26 +130,20 @@ mod test {
             .unwrap();
         let state = State::new(vec![p1, p2]);
 
-        assert_eq!(
-            TaskWinCards::new([Card::Blue(1), Card::Blue(2)]).eval(&state, 0),
-            TaskStatus::Failed
-        );
+        assert_eq!(task.eval(&state, 0), TaskStatus::Failed);
     }
 
     #[test]
     fn unknown_2_cards_1_trick() {
-        let task = TaskWinCards::new([Card::Blue(1), Card::Blue(2)]);
+        let task = TaskWinCards::new(None, [Card::Blue(1), Card::Blue(2)]);
         let mut p1 = Player::new(vec![].into());
-        p1.add_task(task);
+        p1.add_task(task.clone());
         p1.add_trick((0, 0, vec![Card::Submarine(4), Card::Blue(1)]).into())
             .unwrap();
 
         let p2 = Player::new(vec![].into());
         let state = State::new(vec![p1, p2]);
 
-        assert_eq!(
-            TaskWinCards::new([Card::Blue(1), Card::Blue(2)]).eval(&state, 0),
-            TaskStatus::Unknown
-        );
+        assert_eq!(task.eval(&state, 0), TaskStatus::Unknown);
     }
 }

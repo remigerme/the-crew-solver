@@ -1,15 +1,16 @@
 use std::collections::HashSet;
 
-use crate::task::{Task, TaskStatus};
+use crate::task::{BaseTask, TaskDifficulty, TaskStatus};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskDontWinTricks {
+    difficulty: Option<TaskDifficulty>,
     indexes: HashSet<usize>,
     any: bool,
 }
 
 impl TaskDontWinTricks {
-    fn new<I>(indexes: I, any: bool) -> Self
+    fn new<I>(difficulty: Option<TaskDifficulty>, indexes: I, any: bool) -> Self
     where
         I: IntoIterator<Item = usize>,
     {
@@ -18,19 +19,23 @@ impl TaskDontWinTricks {
             indexes.len() > 0,
             "at least one forbidden index should be provided"
         );
-        Self { indexes, any }
+        Self {
+            difficulty,
+            indexes,
+            any,
+        }
     }
 
-    pub fn new_n_first_tricks(n: usize) -> Self {
-        Self::new(0..n, false)
+    pub fn new_n_first_tricks(difficulty: Option<TaskDifficulty>, n: usize) -> Self {
+        Self::new(difficulty, 0..n, false)
     }
 
-    pub fn new_any() -> Self {
-        Self::new([], true)
+    pub fn new_any(difficulty: Option<TaskDifficulty>) -> Self {
+        Self::new(difficulty, [], true)
     }
 }
 
-impl Task for TaskDontWinTricks {
+impl BaseTask for TaskDontWinTricks {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         // Checking if we won a relevant trick
         if state
@@ -51,4 +56,6 @@ impl Task for TaskDontWinTricks {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

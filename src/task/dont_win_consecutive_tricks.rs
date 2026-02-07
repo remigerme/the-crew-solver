@@ -1,15 +1,17 @@
-use crate::task::{Task, TaskStatus};
+use crate::task::{BaseTask, TaskDifficulty, TaskStatus};
 
-#[derive(Debug)]
-pub struct TaskDontWinConsecutiveTricks {}
+#[derive(Debug, Clone)]
+pub struct TaskDontWinConsecutiveTricks {
+    difficulty: Option<TaskDifficulty>,
+}
 
 impl TaskDontWinConsecutiveTricks {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(difficulty: Option<TaskDifficulty>) -> Self {
+        Self { difficulty }
     }
 }
 
-impl Task for TaskDontWinConsecutiveTricks {
+impl BaseTask for TaskDontWinConsecutiveTricks {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let mut prev_trick = None;
         for trick in state.get_player(ip).get_tricks() {
@@ -27,4 +29,6 @@ impl Task for TaskDontWinConsecutiveTricks {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

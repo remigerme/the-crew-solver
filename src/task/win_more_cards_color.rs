@@ -1,19 +1,26 @@
 use crate::{
     card::Card,
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
     trick::Trick,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinMoreCardsColor {
+    difficulty: Option<TaskDifficulty>,
     more_of: fn(usize) -> Card,
     fewer_of: fn(usize) -> Card,
     equal: bool,
 }
 
 impl TaskWinMoreCardsColor {
-    pub fn new(more_of: fn(usize) -> Card, fewer_of: fn(usize) -> Card, equal: bool) -> Self {
+    pub fn new(
+        difficulty: Option<TaskDifficulty>,
+        more_of: fn(usize) -> Card,
+        fewer_of: fn(usize) -> Card,
+        equal: bool,
+    ) -> Self {
         Self {
+            difficulty,
             more_of,
             fewer_of,
             equal,
@@ -27,7 +34,7 @@ fn count_won(tricks: &[Trick], color: fn(usize) -> Card) -> usize {
     })
 }
 
-impl Task for TaskWinMoreCardsColor {
+impl BaseTask for TaskWinMoreCardsColor {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let tricks = state.get_player(ip).get_tricks();
         let won_more_of = count_won(tricks, self.more_of);
@@ -69,4 +76,6 @@ impl Task for TaskWinMoreCardsColor {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

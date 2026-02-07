@@ -1,18 +1,20 @@
 use crate::{
     card::{COLOR_RANGE, Card},
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
 };
 
-#[derive(Debug)]
-pub struct TaskWinAllCardsColor {}
+#[derive(Debug, Clone)]
+pub struct TaskWinAllCardsColor {
+    difficulty: Option<TaskDifficulty>,
+}
 
 impl TaskWinAllCardsColor {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(difficulty: Option<TaskDifficulty>) -> Self {
+        Self { difficulty }
     }
 }
 
-impl Task for TaskWinAllCardsColor {
+impl BaseTask for TaskWinAllCardsColor {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let mut n_pink = 0;
         let mut n_green = 0;
@@ -63,4 +65,6 @@ impl Task for TaskWinAllCardsColor {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

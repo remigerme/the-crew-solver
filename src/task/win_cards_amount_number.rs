@@ -1,12 +1,13 @@
 use std::collections::HashMap;
 
 use crate::{
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
     trick::Trick,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinCardsAmountNumber {
+    difficulty: Option<TaskDifficulty>,
     constraints: HashMap<usize, usize>,
     exactly: bool,
 }
@@ -21,18 +22,19 @@ fn count_won_except_submarine(tricks: &[Trick], value: usize) -> usize {
 }
 
 impl TaskWinCardsAmountNumber {
-    pub fn new<I>(exactly: bool, constraints: I) -> Self
+    pub fn new<I>(difficulty: Option<TaskDifficulty>, exactly: bool, constraints: I) -> Self
     where
         I: IntoIterator<Item = (usize, usize)>,
     {
         Self {
+            difficulty,
             exactly,
             constraints: constraints.into_iter().collect(),
         }
     }
 }
 
-impl Task for TaskWinCardsAmountNumber {
+impl BaseTask for TaskWinCardsAmountNumber {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let mut done = true;
         for (&value, &amount) in &self.constraints {
@@ -67,4 +69,6 @@ impl Task for TaskWinCardsAmountNumber {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }

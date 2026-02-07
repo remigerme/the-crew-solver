@@ -2,16 +2,17 @@ use std::collections::HashSet;
 
 use crate::{
     card::{COLOR_RANGE, Card},
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskDontOpenTrickWith {
+    difficulty: Option<TaskDifficulty>,
     cards: HashSet<Card>,
 }
 
 impl TaskDontOpenTrickWith {
-    pub fn new<I>(colors: I) -> Self
+    pub fn new<I>(difficulty: Option<TaskDifficulty>, colors: I) -> Self
     where
         I: IntoIterator<Item = fn(usize) -> Card>,
     {
@@ -22,11 +23,11 @@ impl TaskDontOpenTrickWith {
             }
         }
 
-        TaskDontOpenTrickWith { cards }
+        TaskDontOpenTrickWith { difficulty, cards }
     }
 }
 
-impl Task for TaskDontOpenTrickWith {
+impl BaseTask for TaskDontOpenTrickWith {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         // Checking if current trick fails the task
         if ip == state.first_player()
@@ -50,4 +51,6 @@ impl Task for TaskDontOpenTrickWith {
             TaskStatus::Unknown
         }
     }
+
+    impl_get_difficulty!();
 }

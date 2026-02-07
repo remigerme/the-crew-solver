@@ -1,17 +1,22 @@
 use crate::{
-    task::{Task, TaskStatus},
+    task::{BaseTask, TaskDifficulty, TaskStatus},
     trick::Trick,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TaskWinConsecutiveTricks {
+    difficulty: Option<TaskDifficulty>,
     amount: usize,
     exactly: bool,
 }
 
 impl TaskWinConsecutiveTricks {
-    pub fn new(amount: usize, exactly: bool) -> Self {
-        Self { amount, exactly }
+    pub fn new(difficulty: Option<TaskDifficulty>, amount: usize, exactly: bool) -> Self {
+        Self {
+            difficulty,
+            amount,
+            exactly,
+        }
     }
 }
 
@@ -38,7 +43,7 @@ fn review_gameplay(tricks: &[Trick]) -> (bool, usize, usize) {
     (gap, biggest_streak, current_streak)
 }
 
-impl Task for TaskWinConsecutiveTricks {
+impl BaseTask for TaskWinConsecutiveTricks {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
         let (gap, biggest_streak, current_streak) =
             review_gameplay(state.get_player(ip).get_tricks());
@@ -62,4 +67,6 @@ impl Task for TaskWinConsecutiveTricks {
 
         TaskStatus::Unknown
     }
+
+    impl_get_difficulty!();
 }
