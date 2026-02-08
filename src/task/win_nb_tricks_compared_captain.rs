@@ -27,7 +27,8 @@ impl TaskWinNbTricksComparedCaptain {
 
 impl BaseTask for TaskWinNbTricksComparedCaptain {
     fn eval(&self, state: &crate::state::State, ip: usize) -> super::TaskStatus {
-        let i_captain = State::retrieve_captain(state.get_players()).unwrap();
+        let i_captain =
+            State::retrieve_captain(state.get_players(), Some(state.get_current_trick())).unwrap();
         assert_ne!(ip, i_captain, "This task cannot be given to the captain.");
 
         if state.game_is_over() {

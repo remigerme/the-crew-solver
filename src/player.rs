@@ -88,10 +88,24 @@ impl Player {
         self.tasks.push(task.into());
     }
 
-    pub fn is_captain(&self) -> bool {
+    /// To determine wether the current player is the captain, we might also need the current trick,
+    /// the number of players and this player's index (in case the submarine 4 has been played
+    /// but the trick is not over yet).
+    pub fn is_captain(
+        &self,
+        current_trick_n_players_index: Option<(&Trick, usize, usize)>,
+    ) -> bool {
         let is_submarine_4 = |&c| c == Card::Submarine(4);
         self.hand.iter().any(is_submarine_4)
             || self.tricks.iter().any(|t| t.iter().any(is_submarine_4))
+            || current_trick_n_players_index
+                .map(|(current_trick, n_players, i)| {
+                    match current_trick.iter().position(is_submarine_4) {
+                        None => false,
+                        Some(j) => i == (j + current_trick.get_first_player()) % n_players,
+                    }
+                })
+                .unwrap_or(false)
     }
 
     pub fn tasks_status(&self, ip: usize, state: &State) -> TaskStatus {
@@ -119,10 +133,10 @@ mod test {
     #[test]
     fn test_is_captain() {
         let captain = Player::new(vec![Card::Green(1), Card::Submarine(4)].into());
-        assert!(captain.is_captain());
+        assert!(captain.is_captain(None));
 
         let not_captain = Player::new(vec![Card::Yellow(4), Card::Green(1)].into());
-        assert!(!not_captain.is_captain());
+        assert!(!not_captain.is_captain(None));
     }
 
     #[test]

@@ -29,12 +29,17 @@ pub enum GameError {
 }
 
 impl State {
-    pub fn retrieve_captain<'a, I>(players: I) -> Result<usize, GameError>
+    pub fn retrieve_captain<'a, I>(
+        players: I,
+        current_trick: Option<&Trick>,
+    ) -> Result<usize, GameError>
     where
         I: IntoIterator<Item = &'a Player>,
     {
+        let players: Vec<&'a Player> = players.into_iter().collect();
+        let n_players = players.len();
         for (i, p) in players.into_iter().enumerate() {
-            if p.is_captain() {
+            if p.is_captain(current_trick.map(|ct| (ct, n_players, i))) {
                 return Ok(i);
             }
         }
@@ -46,7 +51,7 @@ impl State {
         I: IntoIterator<Item = Player>,
     {
         let players = players.into_iter().collect();
-        let captain = State::retrieve_captain(&players).unwrap();
+        let captain = State::retrieve_captain(&players, None).unwrap();
         State {
             players,
             current_trick: (0, captain, vec![]).into(),
