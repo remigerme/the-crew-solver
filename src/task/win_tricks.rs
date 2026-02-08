@@ -48,11 +48,7 @@ impl BaseTask for TaskWinTricks {
             .collect();
         let won_all = indexes.iter().all(|i| tricks_idx.contains(i));
         let current = state.get_current_trick().idx();
-        let first_missing = self
-            .indexes
-            .iter()
-            .filter(|&i| !tricks_idx.contains(i))
-            .min();
+        let first_missing = indexes.iter().filter(|&i| !tricks_idx.contains(i)).min();
         let won_another = tricks_idx.iter().any(|i| !indexes.contains(i));
         if won_all && (!self.strict || (state.game_is_over() && indexes.len() == tricks_idx.len()))
         {
