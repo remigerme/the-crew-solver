@@ -28,10 +28,14 @@ impl TaskWinMoreCardsColor {
     }
 }
 
+fn count_color(cards: &[Card], color: fn(usize) -> Card) -> usize {
+    cards.iter().filter(|c| c.same_color(&color(1))).count()
+}
+
 fn count_won(tricks: &[Trick], color: fn(usize) -> Card) -> usize {
-    tricks.iter().fold(0, |acc, trick| {
-        acc + trick.iter().filter(|c| c.same_color(&color(1))).count()
-    })
+    tricks
+        .iter()
+        .fold(0, |acc, trick| acc + count_color(trick, color))
 }
 
 impl BaseTask for TaskWinMoreCardsColor {
@@ -47,9 +51,9 @@ impl BaseTask for TaskWinMoreCardsColor {
                 continue;
             }
 
-            let tricks = state.get_player(i).get_tricks();
-            left_more_of += count_won(tricks, self.more_of);
-            left_fewer_of += count_won(tricks, self.fewer_of);
+            let hand = state.get_player(i).get_hand();
+            left_more_of += count_color(hand, self.more_of);
+            left_fewer_of += count_color(hand, self.fewer_of);
         }
 
         if !self.equal {
