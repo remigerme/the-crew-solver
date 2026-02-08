@@ -61,7 +61,7 @@ impl BaseTask for TaskWinConsecutiveTricks {
         }
 
         let missing = self.amount - current_streak;
-        if missing < state.n_tricks_left() {
+        if missing > state.n_tricks_left() {
             return TaskStatus::Failed;
         }
 
