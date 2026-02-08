@@ -16,7 +16,7 @@ impl TaskDontWinTricks {
     {
         let indexes: HashSet<usize> = indexes.into_iter().collect();
         assert!(
-            indexes.len() > 0,
+            indexes.len() > 0 || any,
             "at least one forbidden index should be provided"
         );
         Self {
@@ -49,8 +49,12 @@ impl BaseTask for TaskDontWinTricks {
 
         // Checking if we are done (no risk we win a relevant trick)
         // We add an extra check for the any case
-        let m = self.indexes.iter().max().unwrap();
-        if state.get_current_trick().idx() > *m || state.game_is_over() {
+        let m = self.indexes.iter().max();
+        let done = match m {
+            Some(m) => state.get_current_trick().idx() > *m || state.game_is_over(),
+            None => state.game_is_over(),
+        };
+        if done {
             return TaskStatus::Done;
         }
 
